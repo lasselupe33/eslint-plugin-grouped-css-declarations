@@ -94,12 +94,16 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
           const nextExpression = node.quasi.expressions[i];
 
           if (nextExpression) {
-            const nearestLine = currentQuasi?.split("\n").at(-1)?.trimEnd();
+            const nearestChar = currentQuasi
+              ?.replace("\n", "")
+              .trimEnd()
+              .at(-1);
+
             const nextQuasi =
               node.quasi.quasis[i + 1]?.value.cooked.trimStart();
 
             if (
-              nearestLine === "" &&
+              (!nearestChar || nearestChar === ";") &&
               (nextQuasi?.startsWith("\n") || nextQuasi?.startsWith(";"))
             ) {
               cssString += `custom-js__${Buffer.from(
