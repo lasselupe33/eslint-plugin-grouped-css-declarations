@@ -1,0 +1,59 @@
+{
+  "name": "eslint-plugin-css-linaria",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "files": [
+    "lib/**"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "css",
+    "linaria",
+    "grouping"
+  ],
+  "scripts": {
+    "build": "rm -rf ./lib && tsc --project ./tsconfig.build.json",
+    "watch": "yarn build --watch",
+    "eslint:files": "eslint",
+    "eslint:plugin": "yarn eslint:files 'src/**/*.{ts,tsx}' --ignore-pattern '**/tests/**/*.ts' --ignore-pattern '**/tests/**/*.tsx'",
+    "eslint:tests": "yarn eslint:files 'src/**/tests/**/*.{ts,tsx}'",
+    "eslint:dummy": "yarn eslint:files 'dummy/**/debug.{json,ts,tsx}'",
+    "test": "jest --cache --config=.jestrc.json",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
+    "@linaria/core": "^4.2.2",
+    "@swc-node/jest": "^1.5.5",
+    "@swc/core": "^1.3.18",
+    "@types/css": "^0.0.33",
+    "@types/eslint": "^8.4.10",
+    "@types/jest": "^29.2.3",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "@typescript-eslint/scope-manager": "^5.43.0",
+    "csstype": "^3.1.1",
+    "enhanced-resolve": "^5.10.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-comment-length": "^0.7.2",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-css-linaria": "link:./",
+    "jest": "^29.3.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.9.3"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "dependencies": {
+    "@typescript-eslint/utils": "^5.43.0",
+    "postcss": "^8.4.19"
+  }
+}
