@@ -10,13 +10,14 @@ type Kebab<
 export type GroupOrder = (
   | `${Kebab<keyof StandardProperties>}`
   | "custom-prop"
+  | "custom-js"
   | "--"
 )[];
 export type Order = GroupOrder[];
 
 export const defaultOrder: Order = [
   // Variables/CSS-in-JS
-  ["custom-prop", "--"],
+  ["custom-js", "custom-prop", "--"],
 
   // pseudo-elements
   ["content"],

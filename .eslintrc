@@ -11,7 +11,7 @@
     "plugin:prettier/recommended",
     "plugin:import/recommended",
     "plugin:comment-length/recommended",
-    "plugin:css-linaria/recommended"
+    "plugin:grouped-css-declarations/recommended"
   ],
   "plugins": [
     "import"

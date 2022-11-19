@@ -35,6 +35,7 @@
     "@types/eslint": "^8.4.10",
     "@types/jest": "^29.2.3",
     "@types/node": "^18.11.9",
+    "@types/postcss-safe-parser": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
     "@typescript-eslint/scope-manager": "^5.43.0",
@@ -43,9 +44,9 @@
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-comment-length": "^0.7.2",
+    "eslint-plugin-grouped-css-declarations": "link:./",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-grouped-css-declarations": "link:./",
     "jest": "^29.3.1",
     "prettier": "^2.7.1",
     "typescript": "^4.9.3"
@@ -55,6 +56,7 @@
   },
   "dependencies": {
     "@typescript-eslint/utils": "^5.43.0",
-    "postcss": "^8.4.19"
+    "postcss": "^8.4.19",
+    "postcss-safe-parser": "^6.0.0"
   }
 }

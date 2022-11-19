@@ -1,5 +1,6 @@
 import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
 import rootPostcss from "postcss";
+import safe from "postcss-safe-parser";
 
 import { resolveDocsRoute } from "../../../utils";
 import { isIdentifier } from "../../../utils/ast/guards";
@@ -88,17 +89,33 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
         let cssString = "";
 
         for (let i = 0; i < node.quasi.quasis.length; i++) {
-          cssString += node.quasi.quasis[i]?.value.cooked;
+          const currentQuasi = node.quasi.quasis[i]?.value.cooked;
+          cssString += currentQuasi;
 
           const nextExpression = node.quasi.expressions[i];
 
           if (nextExpression) {
-            cssString += `custom-prop__${sourceCode.getText(nextExpression)}__`;
+            const nearestLine = currentQuasi?.split("\n").at(-1)?.trimEnd();
+            const nextQuasi =
+              node.quasi.quasis[i + 1]?.value.cooked.trimStart();
+
+            if (
+              nearestLine === "" &&
+              (nextQuasi?.startsWith("\n") || nextQuasi?.startsWith(";"))
+            ) {
+              cssString += `custom-js__${sourceCode.getText(
+                nextExpression
+              )}__:ignore;`;
+            } else {
+              cssString += `custom-prop__${sourceCode.getText(
+                nextExpression
+              )}__`;
+            }
           }
         }
 
         try {
-          const cssAST = postcss.process(cssString).root;
+          const cssAST = postcss.process(cssString, { parser: safe }).root;
           const orginalKey = astToKeySegments(cssAST).join("");
 
           const declarationRootScope = extractDeclarationScope(cssAST);
@@ -120,7 +137,9 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
 
                 return fixer.replaceText(
                   node.quasi,
-                  `\`${fixedAst.toString()}\``
+                  `\`${fixedAst
+                    .toString()
+                    .replace(/custom-js__(.*?)__:\s*?ignore;/g, "${$1};")}\``
                 );
               },
             });

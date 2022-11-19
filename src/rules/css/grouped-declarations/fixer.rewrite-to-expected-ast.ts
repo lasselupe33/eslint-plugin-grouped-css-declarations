@@ -19,7 +19,27 @@ export function rewriteToExpectedAST(
     scope: DeclarationScope,
     rootNode: Root | Rule | AtRule
   ) {
+    if (scope.comment) {
+      const newLines = rootNode.nodes.length === 0 ? 1 : 2;
+      scope.comment.raws = {
+        ...scope.comment.raws,
+        before: `${"\n".repeat(newLines)}${" ".repeat(
+          scope.comment.raws.before?.replace(/\n/g, "").length ?? 0
+        )}`,
+      };
+
+      rootNode.push(scope.comment);
+    }
+
     if (scope.container) {
+      const newLines = rootNode.nodes.length === 0 || scope.comment ? 1 : 2;
+      scope.container.raws = {
+        ...scope.container.raws,
+        before: `${"\n".repeat(newLines)}${" ".repeat(
+          scope.container.raws.before?.replace(/\n/g, "").length ?? 0
+        )}`,
+      };
+
       scope.container.nodes = [];
       rootNode.push(scope.container);
     }
@@ -32,11 +52,14 @@ export function rewriteToExpectedAST(
 
     for (const declarationGroup of orderedGroups) {
       if (declarationGroup.comment) {
+        const newLines = relevantNodeArray.length === 0 ? 1 : 2;
         declarationGroup.comment.raws = {
-          before: `\n\n${" ".repeat(
+          ...declarationGroup.comment.raws,
+          before: `${"\n".repeat(newLines)}${" ".repeat(
             declarationGroup.comment.raws.before?.replace(/\n/g, "").length ?? 0
           )}`,
         };
+
         relevantNodeArray.push(declarationGroup.comment);
       }
 
@@ -48,6 +71,7 @@ export function rewriteToExpectedAST(
         }
 
         declaration.raws = {
+          ...declaration.raws,
           before: `${"\n".repeat(
             // The first declaration may have an additional line-break to
             // separate it from the previous group.
@@ -59,7 +83,7 @@ export function rewriteToExpectedAST(
               ? 2
               : 1
           )}${" ".repeat(
-            declaration.raws.before?.replace(/\n/g, "").length ?? 0
+            declaration.raws.before?.replace(/[^ ]/g, "").length ?? 0
           )}`,
         };
       }
