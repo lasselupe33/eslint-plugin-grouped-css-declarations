@@ -1,19 +1,19 @@
-import { groupedPropertiesRule } from "./rules/css/grouped-properties/_rule";
+import { groupedDeclarationsRule } from "./rules/css/grouped-declarations/_rule";
 
 export const rules = {
-  "css/grouped-properties": groupedPropertiesRule,
+  "css/grouped-declarations": groupedDeclarationsRule,
 };
 
 export const configs = {
   recommended: {
-    extends: ["plugin:css-linaria/css"],
-    plugins: ["css-linaria"],
+    extends: ["plugin:grouped-css-declarations/css"],
+    plugins: ["grouped-css-declarations"],
   },
 
   css: {
-    plugins: ["css-linaria"],
+    plugins: ["grouped-css-declarations"],
     rules: {
-      "css-linaria/css/grouped-properties": ["error"],
+      "grouped-css-declarations/css/grouped-declarations": ["error"],
     },
   },
 };

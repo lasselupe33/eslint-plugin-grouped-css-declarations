@@ -33,7 +33,9 @@ export function rewriteToExpectedAST(
     for (const declarationGroup of orderedGroups) {
       if (declarationGroup.comment) {
         declarationGroup.comment.raws = {
-          before: "\n\n",
+          before: `\n\n${" ".repeat(
+            declarationGroup.comment.raws.before?.replace(/\n/g, "").length ?? 0
+          )}`,
         };
         relevantNodeArray.push(declarationGroup.comment);
       }

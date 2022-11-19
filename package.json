@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-css-linaria",
+  "name": "eslint-plugin-grouped-css-declarations",
   "version": "0.0.0",
   "description": "",
   "main": "./lib/index.js",
@@ -12,7 +12,8 @@
     "eslintplugin",
     "css",
     "linaria",
-    "grouping"
+    "grouping",
+    "declarations"
   ],
   "scripts": {
     "build": "rm -rf ./lib && tsc --project ./tsconfig.build.json",
@@ -44,7 +45,7 @@
     "eslint-plugin-comment-length": "^0.7.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-css-linaria": "link:./",
+    "eslint-plugin-grouped-css-declarations": "link:./",
     "jest": "^29.3.1",
     "prettier": "^2.7.1",
     "typescript": "^4.9.3"

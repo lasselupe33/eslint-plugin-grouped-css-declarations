@@ -39,7 +39,14 @@ export const defaultOrder: Order = [
   ],
 
   // Box appearance
-  ["appearance", "box-shadow", "border", "background"],
+  [
+    "appearance",
+    "box-shadow",
+    "border",
+    "background",
+    "backdrop-filter",
+    "filter",
+  ],
   [
     "overflow",
     "text-overflow",

@@ -2003,7 +2003,7 @@ eslint-plugin-comment-length@^0.7.2:
   resolved "https://registry.yarnpkg.com/eslint-plugin-comment-length/-/eslint-plugin-comment-length-0.7.2.tgz#b58017ee9b1a93aed7bce6cbf66b2365aaba5fa1"
   integrity sha512-mRmdUTFBYh6ufoAaeXMvAACUwt+MWq5avfoC+799rMLVtXYuRxFm+Gxuer7AnvHp1Cqs74AAKl2u+DOZ5s0R8A==
 
-"eslint-plugin-css-linaria@link:.":
+"eslint-plugin-grouped-css-declarations@link:.":
   version "0.0.0"
   uid ""
 

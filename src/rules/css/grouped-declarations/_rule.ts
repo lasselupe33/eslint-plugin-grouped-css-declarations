@@ -17,27 +17,58 @@ export type Options = [];
 export enum MessageIds {
   INVALID_GROUP_ORDER = "invalid-group-order",
   INVALID_DECLARATION_ORDER = "invalid-declaration-order",
+  INVALID_GROUPING = "invalid-grouping",
   FIXABLE_REPORT = "fixable-report",
 }
 
 const createRule = RuleCreator(resolveDocsRoute);
 
 /**
- * @TODO: Docs
+ * Identifies @linaria/core CSS-in-JS tags and ensures that a standardised
+ * grouping of declarations is enforced. A "group" is identified as a logical
+ * set of declarations separated by either an empty line or a comment.
+ *
+ * Issues will, whereever possible, be reported inline at violating CSS lines
+ * to allow developers to easily digest issues. However, in some cases such
+ * reports have not been implemented.
+ *
+ * In practice the reports exist simply to improve DX-experience. The actual
+ * auto-fix relies upon comparing the original AST with an AST that fully
+ * respects the configured ordering, prioritised as follows:
+ *
+ * 1) Declaration grouping will be considered in scopes. AtRule and Rule
+ * creates new scopes.
+ *
+ * 2) The root scope will be positioned before other scopes. Then Rule scopes
+ * will follow and finally AtRules.
+ *
+ * 3) Inside each scope declarations will be sorted based on the provided
+ * grouping.
+ *
+ * 4) In case a group of declarations begins with a comment, then these will be
+ * taken out of the ordering flow and positioned at the end of the scope.
+ * Ordering will not be performed for this group.
+ *
+ * 5) If a declaration does not match any provided grouping then it will be
+ * added to a final group after all other groups. Inside declarations will be
+ * sorted alphabetically.
  */
-export const groupedPropertiesRule = createRule<Options, MessageIds>({
-  name: "grouped-properties",
+export const groupedDeclarationsRule = createRule<Options, MessageIds>({
+  name: "grouped-declarations",
   defaultOptions: [],
   meta: {
     type: "problem",
     fixable: "code",
     messages: {
-      [MessageIds.INVALID_GROUP_ORDER]: `Oh no, do not do this`,
-      [MessageIds.INVALID_DECLARATION_ORDER]: "Oh no prop",
-      [MessageIds.FIXABLE_REPORT]: "Use me to fix",
+      [MessageIds.INVALID_GROUP_ORDER]: `"{{currentGroup}}" (priority {{currentGroupIndex}}) should be placed before "{{prevGroup}}" (priority {{prevGroupIndex}})`,
+      [MessageIds.INVALID_DECLARATION_ORDER]: `"{{property}}" is not ordered correctly with respect to the ordering "{{order}}"`,
+      [MessageIds.INVALID_GROUPING]: `"{{property}}" does not belong to the current group ordering "{{order}}"`,
+      [MessageIds.FIXABLE_REPORT]:
+        "Issues have been identified with the current CSS structuring, please use this error to automatically re-format",
     },
     docs: {
-      description: " ergergerg erg gre",
+      description:
+        "Identifies @linaria/core CSS-in-JS tags and ensures that a standardised grouping of declarations is enforced",
       recommended: "error",
     },
     hasSuggestions: true,

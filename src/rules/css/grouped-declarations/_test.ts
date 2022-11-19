@@ -4,7 +4,7 @@ import { ESLintUtils } from "@typescript-eslint/utils";
 
 import { getCode } from "../../../utils/testing";
 
-import { groupedPropertiesRule } from "./_rule";
+import { groupedDeclarationsRule } from "./_rule";
 
 const ruleTester = new ESLintUtils.RuleTester({
   parser: "@typescript-eslint/parser",
@@ -19,7 +19,7 @@ const ruleTester = new ESLintUtils.RuleTester({
 
 const testDir = path.join(__dirname, "tests");
 
-ruleTester.run("css/grouped-properties", groupedPropertiesRule, {
+ruleTester.run("css/grouped-properties", groupedDeclarationsRule, {
   valid: [getCode(testDir, "file")],
   invalid: [],
 });
