@@ -4,7 +4,7 @@ import { ESLintUtils } from "@typescript-eslint/utils";
 
 import { getCode } from "../../../utils/testing";
 
-import { groupedPropertiesRule, MessageIds } from "./_rule";
+import { groupedPropertiesRule } from "./_rule";
 
 const ruleTester = new ESLintUtils.RuleTester({
   parser: "@typescript-eslint/parser",
