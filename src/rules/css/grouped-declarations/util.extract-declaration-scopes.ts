@@ -56,7 +56,11 @@ export function extractDeclarationScope(
       case "comment": {
         const nextNode = root.nodes[i + 1];
 
-        if (nextNode?.type === "atrule" || nextNode?.type === "rule") {
+        if (
+          !nextNode ||
+          nextNode.type === "atrule" ||
+          nextNode.type === "rule"
+        ) {
           commentForNextScope = currentNode;
         } else if (currentDeclarationGroup.declarations.length > 0) {
           scopedDeclaration.groups.push(currentDeclarationGroup);
@@ -106,6 +110,10 @@ export function extractDeclarationScope(
         scopedDeclaration.scopes.push(ruleDeclarationGroups);
       }
     }
+  }
+
+  if (commentForNextScope) {
+    scopedDeclaration.comment = commentForNextScope;
   }
 
   if (currentDeclarationGroup.declarations.length > 0) {
