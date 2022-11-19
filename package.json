@@ -22,7 +22,7 @@
     "eslint:plugin": "yarn eslint:files 'src/**/*.{ts,tsx}' --ignore-pattern '**/tests/**/*.ts' --ignore-pattern '**/tests/**/*.tsx'",
     "eslint:tests": "yarn eslint:files 'src/**/tests/**/*.{ts,tsx}'",
     "eslint:dummy": "yarn eslint:files 'dummy/**/debug.{json,ts,tsx}'",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build",
     "test": "jest --cache --config=.jestrc.json",
     "type-check": "tsc --noEmit"
   },
