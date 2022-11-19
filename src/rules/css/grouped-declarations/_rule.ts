@@ -105,7 +105,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
             ) {
               cssString += `custom-js__${sourceCode.getText(
                 nextExpression
-              )}__:ignore;`;
+              )}__:ignore${nextQuasi.startsWith(";") ? "" : ";"}`;
             } else {
               cssString += `custom-prop__${sourceCode.getText(
                 nextExpression

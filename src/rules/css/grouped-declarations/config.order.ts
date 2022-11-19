@@ -50,11 +50,12 @@ export const defaultOrder: Order = [
   ],
   [
     "overflow",
+    "overscroll-behavior",
     "text-overflow",
+    "hyphens",
     "white-space",
     "word-break",
     "word-wrap",
-    "overscroll-behavior",
   ],
 
   // Child positioning
