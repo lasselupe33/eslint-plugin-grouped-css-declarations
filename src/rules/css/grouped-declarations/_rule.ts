@@ -9,7 +9,6 @@ import { rewriteToExpectedAST } from "./fixer.rewrite-to-expected-ast";
 import { astToKeySegments } from "./util.ast-to-key-segments";
 import { makeDeclarationScopeAnalyzer } from "./util.declaration-scope-analyzer";
 import { extractDeclarationScope } from "./util.extract-declaration-scopes";
-import { restoreCustomProps } from "./util.restore-custom-props";
 
 const postcss = rootPostcss();
 
@@ -103,13 +102,15 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
               nearestLine === "" &&
               (nextQuasi?.startsWith("\n") || nextQuasi?.startsWith(";"))
             ) {
-              cssString += `custom-js__${sourceCode.getText(
-                nextExpression
-              )}__:ignore${nextQuasi.startsWith(";") ? "" : ";"}`;
+              cssString += `custom-js__${Buffer.from(
+                sourceCode.getText(nextExpression)
+              ).toString("base64")}__:ignore${
+                nextQuasi.startsWith(";") ? "" : ";"
+              }`;
             } else {
-              cssString += `custom-prop__${sourceCode.getText(
-                nextExpression
-              )}__`;
+              cssString += `custom-prop__${Buffer.from(
+                sourceCode.getText(nextExpression)
+              ).toString("base64")}__`;
             }
           }
         }
@@ -133,13 +134,33 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
               node: node.tag,
               messageId: MessageIds.FIXABLE_REPORT,
               fix(fixer) {
-                restoreCustomProps(fixedAst);
+                // restoreCustomProps(fixedAst);
 
                 return fixer.replaceText(
                   node.quasi,
                   `\`${fixedAst
                     .toString()
-                    .replace(/custom-js__(.*?)__:\s*?ignore;/g, "${$1};")}\``
+                    .replace(/custom-prop__(.*?)__/g, (replaceable) => {
+                      const base64js = replaceable
+                        .replace(/^custom-prop__/, "")
+                        .replace(/__$/, "");
+
+                      return `$\{${Buffer.from(base64js, "base64").toString(
+                        "utf-8"
+                      )}}`;
+                    })
+                    .replace(
+                      /custom-js__(.*?)__:\s*?ignore;/g,
+                      (replaceable) => {
+                        const base64js = replaceable
+                          .replace(/^custom-js__/, "")
+                          .replace(/__:\s*?ignore;$/, "");
+
+                        return `$\{${Buffer.from(base64js, "base64").toString(
+                          "utf-8"
+                        )}}`;
+                      }
+                    )}\``
                 );
               },
             });
