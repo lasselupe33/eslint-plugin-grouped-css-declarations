@@ -158,7 +158,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
 
                         return `$\{${Buffer.from(base64js, "base64").toString(
                           "utf-8"
-                        )}}`;
+                        )}};`;
                       }
                     )}\``
                 );
