@@ -15,9 +15,19 @@ export type GroupOrder = (
 export type Order = GroupOrder[];
 
 export const defaultOrder: Order = [
+  // Variables/CSS-in-JS
   ["custom-prop", "--"],
-  ["position", "top", "left", "right", "bottom", "z-index"],
+
+  // pseudo-elements
+  ["content"],
+
+  // Positioning
+  ["position", "inset", "top", "left", "right", "bottom", "z-index"],
+
+  // Boundaries
   ["margin", "padding"],
+
+  // Dimensioning
   [
     "box-sizing",
     "max-height",
@@ -27,21 +37,44 @@ export const defaultOrder: Order = [
     "min-height",
     "min-width",
   ],
-  ["appearance", "border", "background"],
-  ["overflow", "text-overflow", "white-space"],
+
+  // Box appearance
+  ["appearance", "box-shadow", "border", "background"],
+  [
+    "overflow",
+    "text-overflow",
+    "white-space",
+    "word-break",
+    "word-wrap",
+    "overscroll-behavior",
+  ],
+
+  // Child positioning
   [
     "display",
+    "direction",
     "grid",
     "flex",
+    "order",
     "justify-self",
     "justify-content",
     "justify-items",
     "align-self",
     "align-content",
     "align-items",
+    "columns",
+    "column-count",
+    "column-fill",
+    "column-rule",
+    "column-gap",
+    "column-span",
+    "column-width",
     "gap",
+    "list-style",
     "text-align",
   ],
+
+  // Font appearance
   [
     "color",
     "font-family",
@@ -53,7 +86,12 @@ export const defaultOrder: Order = [
     "letter-spacing",
     "text-decoration",
     "text-transform",
+    "text-shadow",
   ],
+
+  // Interactions
   ["cursor", "outline"],
-  ["opacity", "transform", "transition"],
+
+  // Transitions
+  ["opacity", "transform", "transition", "animation"],
 ];
