@@ -6,14 +6,14 @@ export const rules = {
 
 export const configs = {
   recommended: {
-    extends: ["plugin:starter/css"],
-    plugins: ["starter"],
+    extends: ["plugin:css-linaria/css"],
+    plugins: ["css-linaria"],
   },
 
   css: {
-    plugins: ["starter"],
+    plugins: ["css-linaria"],
     rules: {
-      "starter/css/grouped-properties": ["error"],
+      "css-linaria/css/grouped-properties": ["error"],
     },
   },
 };

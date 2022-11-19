@@ -26,7 +26,7 @@ const createRule = RuleCreator(resolveDocsRoute);
  * @TODO: Docs
  */
 export const groupedPropertiesRule = createRule<Options, MessageIds>({
-  name: "no-relative-internals",
+  name: "grouped-properties",
   defaultOptions: [],
   meta: {
     type: "problem",
