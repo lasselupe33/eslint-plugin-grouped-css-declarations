@@ -14,11 +14,22 @@ import { GroupOrder } from "./config.order";
 export function findGroupOrderForProperty(
   property: string | undefined
 ): (groupOrder: GroupOrder) => boolean {
-  return (groupOrder) => groupOrder.some(findPropertyInGroupOrder(property));
+  return (groupOrder) => !!findPropertyIndexInGroupOrder(groupOrder, property);
 }
 
-export function findPropertyInGroupOrder(
+export function findPropertyIndexInGroupOrder(
+  order: GroupOrder,
   property: string | undefined
-): (groupProp: GroupOrder[number]) => boolean {
-  return (groupProp) => property?.startsWith(groupProp) ?? false;
+): number | undefined {
+  let index = order.findIndex((groupProp) => groupProp === property);
+
+  if (index === -1) {
+    index = order.findIndex((groupProp) => property?.startsWith(groupProp));
+  }
+
+  if (index === -1) {
+    return undefined;
+  } else {
+    return index;
+  }
 }

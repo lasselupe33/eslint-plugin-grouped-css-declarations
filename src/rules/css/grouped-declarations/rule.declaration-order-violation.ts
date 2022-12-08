@@ -10,7 +10,7 @@ import {
 } from "./util.extract-declaration-scopes";
 import {
   findGroupOrderForProperty,
-  findPropertyInGroupOrder,
+  findPropertyIndexInGroupOrder,
 } from "./util.find-group-order-for-property";
 import { getDeclarationPosition } from "./util.get-declaration-position";
 
@@ -54,8 +54,9 @@ export function reportDeclarationOrderViolations(
         continue;
       }
 
-      const isInGroup = relevantGroupOrder.some(
-        findPropertyInGroupOrder(violation.prop)
+      const isInGroup = !!findPropertyIndexInGroupOrder(
+        relevantGroupOrder,
+        violation.prop
       );
 
       context.report({
@@ -84,7 +85,8 @@ function getViolatingDeclarations(
   let lastSeenIndex = -1;
 
   for (const declaration of group.declarations) {
-    const indexOf = order.findIndex(findPropertyInGroupOrder(declaration.prop));
+    const indexOf =
+      findPropertyIndexInGroupOrder(order, declaration.prop) ?? -1;
 
     if (indexOf < lastSeenIndex) {
       violations.push(declaration);

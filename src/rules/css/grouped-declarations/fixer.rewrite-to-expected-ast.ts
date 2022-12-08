@@ -5,7 +5,10 @@ import {
   DeclarationGroup,
   DeclarationScope,
 } from "./util.extract-declaration-scopes";
-import { findGroupOrderForProperty } from "./util.find-group-order-for-property";
+import {
+  findGroupOrderForProperty,
+  findPropertyIndexInGroupOrder,
+} from "./util.find-group-order-for-property";
 
 export function rewriteToExpectedAST(
   cssAST: Root,
@@ -154,8 +157,8 @@ function constructOrderedGroups(
 
 function orderGroup(order: GroupOrder, group: Declaration[]): Declaration[] {
   return [...group].sort((a, b) => {
-    const aOrder = order.findIndex((it) => a.prop.startsWith(it)) ?? -1;
-    const bOrder = order.findIndex((it) => b.prop.startsWith(it)) ?? -1;
+    const aOrder = findPropertyIndexInGroupOrder(order, a.prop) ?? -1;
+    const bOrder = findPropertyIndexInGroupOrder(order, b.prop) ?? -1;
 
     return aOrder - bOrder;
   });

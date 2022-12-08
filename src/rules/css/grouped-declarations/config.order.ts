@@ -26,7 +26,18 @@ export const defaultOrder: Order = [
   ["position", "inset", "top", "left", "right", "bottom", "z-index"],
 
   // Boundaries
-  ["margin", "padding"],
+  [
+    "margin",
+    "margin-top",
+    "margin-right",
+    "margin-bottom",
+    "margin-left",
+    "padding",
+    "padding-top",
+    "padding-right",
+    "padding-bottom",
+    "padding-left",
+  ],
 
   // Dimensioning
   [

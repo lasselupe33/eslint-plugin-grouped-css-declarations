@@ -135,8 +135,6 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
               node: node.tag,
               messageId: MessageIds.FIXABLE_REPORT,
               fix(fixer) {
-                // restoreCustomProps(fixedAst);
-
                 return fixer.replaceText(
                   node.quasi,
                   `\`${fixedAst
