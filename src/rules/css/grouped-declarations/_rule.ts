@@ -117,6 +117,8 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
         }
 
         try {
+          // @ts-expect-error posrcss-safe-parser typings are obsolete, however
+          // the parser functions as expected.
           const cssAST = postcss.process(cssString, { parser: safe }).root;
           const orginalKey = astToKeySegments(cssAST).join("");
 
