@@ -14,7 +14,8 @@ import { GroupOrder } from "./config.order";
 export function findGroupOrderForProperty(
   property: string | undefined
 ): (groupOrder: GroupOrder) => boolean {
-  return (groupOrder) => !!findPropertyIndexInGroupOrder(groupOrder, property);
+  return (groupOrder) =>
+    findPropertyIndexInGroupOrder(groupOrder, property) !== undefined;
 }
 
 export function findPropertyIndexInGroupOrder(
