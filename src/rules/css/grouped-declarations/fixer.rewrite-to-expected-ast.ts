@@ -160,6 +160,21 @@ function orderGroup(order: GroupOrder, group: Declaration[]): Declaration[] {
     const aOrder = findPropertyIndexInGroupOrder(order, a.prop) ?? -1;
     const bOrder = findPropertyIndexInGroupOrder(order, b.prop) ?? -1;
 
+    // In case any values in the group contains JS properties, then ensure to
+    // put these first, ensuring that subsequent declarations can overwrite
+    // values from the customly inserted JS, if required.
+    if (
+      a.value.includes("custom-prop__") &&
+      !b.value.includes("custom-prop__")
+    ) {
+      return -1;
+    } else if (
+      !a.value.includes("custom-prop__") &&
+      b.value.includes("custom-prop__")
+    ) {
+      return 1;
+    }
+
     return aOrder - bOrder;
   });
 }
