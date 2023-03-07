@@ -54,10 +54,11 @@ export function reportDeclarationOrderViolations(
         continue;
       }
 
-      const isInGroup = !!findPropertyIndexInGroupOrder(
-        relevantGroupOrder,
-        violation.prop
-      );
+      const isInGroup =
+        typeof findPropertyIndexInGroupOrder(
+          relevantGroupOrder,
+          violation.prop
+        ) !== undefined;
 
       context.report({
         loc,
@@ -88,6 +89,12 @@ function getViolatingDeclarations(
     const indexOf =
       findPropertyIndexInGroupOrder(order, declaration.prop) ?? -1;
 
+    if (declaration.value.includes("custom-prop__")) {
+      continue;
+    }
+
+    // Ignore declarations that are correctly grouped, but invalidly sorted if
+    // they contain JS. We want these to be forcibly placed first.
     if (indexOf < lastSeenIndex) {
       violations.push(declaration);
     }
