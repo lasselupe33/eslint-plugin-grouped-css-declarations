@@ -1,6 +1,5 @@
 import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
 import rootPostcss from "postcss";
-import safe from "postcss-safe-parser";
 
 import { resolveDocsRoute } from "../../../utils";
 import { isIdentifier } from "../../../utils/ast/guards";
@@ -100,7 +99,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
               node.quasi.quasis[i + 1]?.value.cooked.trimStart();
 
             if (
-              (!nearestChar || nearestChar === ";") &&
+              (!nearestChar || ["{", ";"].includes(nearestChar)) &&
               (nextQuasi?.startsWith("\n") || nextQuasi?.startsWith(";"))
             ) {
               cssString += `custom-js__${Buffer.from(
@@ -117,9 +116,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
         }
 
         try {
-          // @ts-expect-error posrcss-safe-parser typings are obsolete, however
-          // the parser functions as expected.
-          const cssAST = postcss.process(cssString, { parser: safe }).root;
+          const cssAST = postcss.process(cssString).root;
           const orginalKey = astToKeySegments(cssAST).join("");
 
           const declarationRootScope = extractDeclarationScope(cssAST);
@@ -166,7 +163,8 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
               },
             });
           }
-        } catch {
+        } catch (err) {
+          console.warn(err);
           // no-op
         }
       },
