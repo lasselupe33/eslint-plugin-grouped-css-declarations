@@ -1,14 +1,14 @@
 import { AtRule, Comment, Declaration, Root, Rule } from "postcss";
 
 export type DeclarationScope = {
-  comment?: Comment;
+  comments: Comment[];
   container?: Rule | AtRule;
   groups: DeclarationGroup[];
   scopes: DeclarationScope[];
 };
 
 export type DeclarationGroup = {
-  comment?: Comment;
+  comments: Comment[];
   declarations: Declaration[];
 };
 
@@ -17,11 +17,11 @@ export type DeclarationGroup = {
  */
 export function extractDeclarationScope(
   root: Root | AtRule | Rule,
-  comment?: Comment
+  comments?: Comment[]
 ): DeclarationScope {
-  let commentForNextScope: Comment | undefined = undefined;
+  let commentsForNextScope: Comment[] = [];
   const scopedDeclaration: DeclarationScope = {
-    comment,
+    comments: comments ?? [],
     container:
       root.type === "atrule" || root.type === "rule" ? root : undefined,
     groups: [],
@@ -29,6 +29,7 @@ export function extractDeclarationScope(
   };
   let currentDeclarationGroup: DeclarationGroup = {
     declarations: [],
+    comments: [],
   };
 
   for (let i = 0; i < root.nodes.length; i++) {
@@ -46,6 +47,7 @@ export function extractDeclarationScope(
           scopedDeclaration.groups.push(currentDeclarationGroup);
           currentDeclarationGroup = {
             declarations: [],
+            comments: [],
           };
         }
 
@@ -54,22 +56,16 @@ export function extractDeclarationScope(
       }
 
       case "comment": {
-        const nextNode = root.nodes[i + 1];
-
-        if (
-          !nextNode ||
-          nextNode.type === "atrule" ||
-          nextNode.type === "rule"
-        ) {
-          commentForNextScope = currentNode;
+        if (isNextLogicalNodeAScope(root, i)) {
+          commentsForNextScope.push(currentNode);
         } else if (currentDeclarationGroup.declarations.length > 0) {
           scopedDeclaration.groups.push(currentDeclarationGroup);
           currentDeclarationGroup = {
-            comment: currentNode,
+            comments: [currentNode],
             declarations: [],
           };
         } else {
-          currentDeclarationGroup.comment = currentNode;
+          currentDeclarationGroup.comments.push(currentNode);
         }
         break;
       }
@@ -80,14 +76,15 @@ export function extractDeclarationScope(
 
           currentDeclarationGroup = {
             declarations: [],
+            comments: [],
           };
         }
 
         const ruleDeclarationGroups = extractDeclarationScope(
           currentNode,
-          commentForNextScope
+          commentsForNextScope
         );
-        commentForNextScope = undefined;
+        commentsForNextScope = [];
         scopedDeclaration.scopes.push(ruleDeclarationGroups);
 
         break;
@@ -99,21 +96,22 @@ export function extractDeclarationScope(
 
           currentDeclarationGroup = {
             declarations: [],
+            comments: [],
           };
         }
 
         const ruleDeclarationGroups = extractDeclarationScope(
           currentNode,
-          commentForNextScope
+          commentsForNextScope
         );
-        commentForNextScope = undefined;
+        commentsForNextScope = [];
         scopedDeclaration.scopes.push(ruleDeclarationGroups);
       }
     }
   }
 
-  if (commentForNextScope) {
-    scopedDeclaration.comment = commentForNextScope;
+  if (commentsForNextScope.length > 0) {
+    scopedDeclaration.comments.push(...commentsForNextScope);
   }
 
   if (currentDeclarationGroup.declarations.length > 0) {
@@ -121,4 +119,23 @@ export function extractDeclarationScope(
   }
 
   return scopedDeclaration;
+}
+
+function isNextLogicalNodeAScope(
+  root: Root | AtRule | Rule,
+  startIndex: number
+): boolean {
+  for (let i = startIndex + 1; i < root.nodes.length; i++) {
+    const nextNode = root.nodes[i];
+
+    if (!nextNode || nextNode.type === "atrule" || nextNode.type === "rule") {
+      return true;
+    }
+
+    if (nextNode.type === "decl") {
+      return false;
+    }
+  }
+
+  return false;
 }

@@ -22,20 +22,31 @@ export function rewriteToExpectedAST(
     scope: DeclarationScope,
     rootNode: Root | Rule | AtRule
   ) {
-    if (scope.comment) {
-      const newLines = rootNode.nodes.length === 0 ? 1 : 2;
-      scope.comment.raws = {
-        ...scope.comment.raws,
-        before: `${"\n".repeat(newLines)}${" ".repeat(
-          scope.comment.raws.before?.replace(/\n/g, "").length ?? 0
-        )}`,
-      };
+    for (let i = 0; i < scope.comments.length; i++) {
+      const isFirstComment = i === 0;
+      const comment = scope.comments[i];
 
-      rootNode.push(scope.comment);
+      if (!comment) {
+        continue;
+      }
+
+      if (isFirstComment) {
+        const newLines = rootNode.nodes.length === 0 ? 1 : 2;
+
+        comment.raws = {
+          ...comment.raws,
+          before: `${"\n".repeat(newLines)}${" ".repeat(
+            comment.raws.before?.replace(/\n/g, "").length ?? 0
+          )}`,
+        };
+      }
+
+      rootNode.push(comment);
     }
 
     if (scope.container) {
-      const newLines = rootNode.nodes.length === 0 || scope.comment ? 1 : 2;
+      const newLines =
+        rootNode.nodes.length === 0 || scope.comments.length > 0 ? 1 : 2;
       scope.container.raws = {
         ...scope.container.raws,
         before: `${"\n".repeat(newLines)}${" ".repeat(
@@ -54,16 +65,25 @@ export function rewriteToExpectedAST(
       : rootNode.nodes;
 
     for (const declarationGroup of orderedGroups) {
-      if (declarationGroup.comment) {
-        const newLines = relevantNodeArray.length === 0 ? 1 : 2;
-        declarationGroup.comment.raws = {
-          ...declarationGroup.comment.raws,
-          before: `${"\n".repeat(newLines)}${" ".repeat(
-            declarationGroup.comment.raws.before?.replace(/\n/g, "").length ?? 0
-          )}`,
-        };
+      for (let i = 0; i < declarationGroup.comments.length; i++) {
+        const isFirstComment = i === 0;
+        const comment = declarationGroup.comments[i];
 
-        relevantNodeArray.push(declarationGroup.comment);
+        if (!comment) {
+          continue;
+        }
+
+        if (isFirstComment) {
+          const newLines = relevantNodeArray.length === 0 ? 1 : 2;
+          comment.raws = {
+            ...comment.raws,
+            before: `${"\n".repeat(newLines)}${" ".repeat(
+              comment.raws.before?.replace(/\n/g, "").length ?? 0
+            )}`,
+          };
+        }
+
+        relevantNodeArray.push(comment);
       }
 
       for (let i = 0; i < declarationGroup.declarations.length; i++) {
@@ -82,7 +102,7 @@ export function rewriteToExpectedAST(
             // just have one line-break as normally.
             i === 0 &&
               relevantNodeArray.length !== 0 &&
-              !declarationGroup.comment
+              declarationGroup.comments.length === 0
               ? 2
               : 1
           )}${" ".repeat(
@@ -108,12 +128,12 @@ function constructOrderedGroups(
 ): DeclarationGroup[] {
   const sortedGroups: DeclarationGroup[] = new Array(defaultOrder.length + 1)
     .fill(undefined)
-    .map(() => ({ declarations: [] }));
+    .map(() => ({ declarations: [], comments: [] }));
 
   for (const declarationGroup of originalGroups) {
     // Groups containing a group should always positioned last in the current
     // declaration scope.
-    if (declarationGroup.comment) {
+    if (declarationGroup.comments.length > 0) {
       sortedGroups.push(declarationGroup);
       continue;
     }

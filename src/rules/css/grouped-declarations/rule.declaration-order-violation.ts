@@ -26,7 +26,7 @@ export function reportDeclarationOrderViolations(
   for (let i = 0; i < scope.groups.length; i++) {
     const declarationGroup = scope.groups[i];
 
-    if (!declarationGroup || declarationGroup.comment) {
+    if (!declarationGroup || declarationGroup.comments.length > 0) {
       continue;
     }
 
@@ -78,7 +78,7 @@ function getViolatingDeclarations(
   order: GroupOrder,
   group: DeclarationGroup
 ): Declaration[] {
-  if (group.comment) {
+  if (group.comments.length > 0) {
     return [];
   }
 

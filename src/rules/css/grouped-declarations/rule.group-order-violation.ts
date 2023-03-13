@@ -36,7 +36,10 @@ export function reportGroupOrderViolations(
       findGroupOrderForProperty(declarationGroup.declarations[0]?.prop)
     );
 
-    if (relevantGroupOrderIndex === -1 || declarationGroup.comment) {
+    if (
+      relevantGroupOrderIndex === -1 ||
+      declarationGroup.comments.length > 0
+    ) {
       relevantGroupOrderIndex = 9999;
     }
 
@@ -68,10 +71,11 @@ export function reportGroupOrderViolations(
       relevantGroupOrderIndex,
       prevGroupOrderIndex
     );
-    prevGroupOrderIdent = declarationGroup.comment
-      ? "comment-group"
-      : relevantGroupOrderIndex === 9999
-      ? "unordered-group"
-      : "ordered-group";
+    prevGroupOrderIdent =
+      declarationGroup.comments.length > 0
+        ? "comment-group"
+        : relevantGroupOrderIndex === 9999
+        ? "unordered-group"
+        : "ordered-group";
   }
 }
