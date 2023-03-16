@@ -53,7 +53,7 @@ const createRule = RuleCreator(resolveDocsRoute);
  * sorted alphabetically.
  */
 export const groupedDeclarationsRule = createRule<Options, MessageIds>({
-  name: "grouped-declarations",
+  name: "css/grouped-declarations",
   defaultOptions: [],
   meta: {
     type: "problem",
