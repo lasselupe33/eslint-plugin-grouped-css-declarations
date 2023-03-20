@@ -54,8 +54,8 @@ export const defaultOrder: Order = [
   [
     "appearance",
     "box-shadow",
-    "border",
     "background",
+    "border",
     "backdrop-filter",
     "filter",
   ],
@@ -96,17 +96,17 @@ export const defaultOrder: Order = [
 
   // Font appearance
   [
-    "color",
+    "font",
     "font-family",
     "font-weight",
     "font-size",
     "font-style",
-    "font",
     "line-height",
     "letter-spacing",
     "text-decoration",
     "text-transform",
     "text-shadow",
+    "color",
   ],
 
   // Interactions

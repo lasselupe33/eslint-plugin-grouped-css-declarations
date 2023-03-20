@@ -29,6 +29,12 @@ export function findPropertyIndexInGroupOrder(
   }
 
   if (index === -1) {
+    index = order.findIndex((groupProp) =>
+      [`-webkit-${groupProp}`, `-moz-${groupProp}`].includes(property ?? "")
+    );
+  }
+
+  if (index === -1) {
     return undefined;
   } else {
     return index;
