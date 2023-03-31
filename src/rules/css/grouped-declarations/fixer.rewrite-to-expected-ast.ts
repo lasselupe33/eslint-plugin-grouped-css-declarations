@@ -180,19 +180,19 @@ function orderGroup(order: GroupOrder, group: Declaration[]): Declaration[] {
     const aOrder = findPropertyIndexInGroupOrder(order, a.prop) ?? -1;
     const bOrder = findPropertyIndexInGroupOrder(order, b.prop) ?? -1;
 
-    const aValueIsCustomProp =
-      a.value === a.value.match(/custom-prop__(.*?)__/)?.[0];
-    const bValueIsCustomProp =
-      b.value === b.value.match(/custom-prop__(.*?)__/)?.[0];
+    // const aValueIsCustomProp =
+    //   a.value === a.value.match(/custom-prop__(.*?)__/)?.[0];
+    // const bValueIsCustomProp =
+    //   b.value === b.value.match(/custom-prop__(.*?)__/)?.[0];
 
-    // In case any values in the group contains JS properties, then ensure to
-    // put these first, ensuring that subsequent declarations can overwrite
-    // values from the customly inserted JS, if required.
-    if (aValueIsCustomProp && !bValueIsCustomProp) {
-      return -1;
-    } else if (!aValueIsCustomProp && bValueIsCustomProp) {
-      return 1;
-    }
+    // // In case any values in the group contains JS properties, then ensure to
+    // // put these first, ensuring that subsequent declarations can overwrite
+    // // values from the customly inserted JS, if required.
+    // if (aValueIsCustomProp && !bValueIsCustomProp) {
+    //   return -1;
+    // } else if (!aValueIsCustomProp && bValueIsCustomProp) {
+    //   return 1;
+    // }
 
     return aOrder - bOrder;
   });
