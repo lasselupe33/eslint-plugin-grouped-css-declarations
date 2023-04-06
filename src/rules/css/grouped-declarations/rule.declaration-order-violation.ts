@@ -23,6 +23,33 @@ export function reportDeclarationOrderViolations(
   node: Node,
   scope: DeclarationScope
 ) {
+  // In case groups are collapsed, then bail out from checking individual
+  // declarations entirely
+  const collapsedGroups =
+    scope.groups.length === 2
+      ? scope.groups[0]?.declarations.reduce(
+          (acc, decl) =>
+            decl.prop.startsWith("custom-prop__") ||
+            decl.prop.startsWith("custom-js__") ||
+            decl.prop.startsWith("--") ||
+            acc,
+          false
+        ) &&
+        new Set(
+          scope.groups[1]?.declarations.map((decl) =>
+            defaultOrder.findIndex(findGroupOrderForProperty(decl.prop))
+          )
+        ).size === scope.groups[1]?.declarations.length
+      : new Set(
+          scope.groups[0]?.declarations.map((decl) =>
+            defaultOrder.findIndex(findGroupOrderForProperty(decl.prop))
+          )
+        ).size === scope.groups[0]?.declarations.length;
+
+  if (collapsedGroups) {
+    return;
+  }
+
   for (let i = 0; i < scope.groups.length; i++) {
     const declarationGroup = scope.groups[i];
 

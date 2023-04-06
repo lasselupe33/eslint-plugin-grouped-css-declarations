@@ -60,11 +60,31 @@ export function rewriteToExpectedAST(
 
     const orderedGroups = constructOrderedGroups(scope.groups);
 
+    // In case all groups (except css variables and CSS-in-JS statements)
+    // contains at most one item, then groups should be collapsed.
+    const collapseGroups = orderedGroups
+      .slice(1)
+      .reduce(
+        (acc, curr) =>
+          curr.declarations.length <= 1 && curr.comments.length === 0 && acc,
+        true
+      );
+
     const relevantNodeArray = scope.container
       ? scope.container.nodes
       : rootNode.nodes;
 
-    for (const declarationGroup of orderedGroups) {
+    for (
+      let declarationGroupIndex = 0;
+      declarationGroupIndex < orderedGroups.length;
+      declarationGroupIndex++
+    ) {
+      const declarationGroup = orderedGroups[declarationGroupIndex];
+
+      if (!declarationGroup) {
+        continue;
+      }
+
       for (let i = 0; i < declarationGroup.comments.length; i++) {
         const isFirstComment = i === 0;
         const comment = declarationGroup.comments[i];
@@ -102,7 +122,11 @@ export function rewriteToExpectedAST(
             // just have one line-break as normally.
             i === 0 &&
               relevantNodeArray.length !== 0 &&
-              declarationGroup.comments.length === 0
+              declarationGroup.comments.length === 0 &&
+              // if we should collapse groups, then no newline should be added
+              // (except between normal props and css vars / css-in-js
+              // statements)
+              (!collapseGroups || declarationGroupIndex === 1)
               ? 2
               : 1
           )}${" ".repeat(
