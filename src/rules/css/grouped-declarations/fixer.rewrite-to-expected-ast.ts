@@ -70,6 +70,10 @@ export function rewriteToExpectedAST(
         true
       );
 
+    // In case we're collapsing groups, then CssInJs should be separate from
+    // the rest of the content.
+    let separatedCssInJS = !collapseGroups;
+
     const relevantNodeArray = scope.container
       ? scope.container.nodes
       : rootNode.nodes;
@@ -81,7 +85,11 @@ export function rewriteToExpectedAST(
     ) {
       const declarationGroup = orderedGroups[declarationGroupIndex];
 
-      if (!declarationGroup) {
+      if (
+        !declarationGroup ||
+        (declarationGroup.comments.length === 0 &&
+          declarationGroup.declarations.length === 0)
+      ) {
         continue;
       }
 
@@ -126,7 +134,8 @@ export function rewriteToExpectedAST(
               // if we should collapse groups, then no newline should be added
               // (except between normal props and css vars / css-in-js
               // statements)
-              (!collapseGroups || declarationGroupIndex === 1)
+              (!collapseGroups ||
+                (declarationGroupIndex > 0 && !separatedCssInJS))
               ? 2
               : 1
           )}${" ".repeat(
@@ -136,6 +145,10 @@ export function rewriteToExpectedAST(
       }
 
       relevantNodeArray.push(...declarationGroup.declarations);
+
+      if (declarationGroupIndex > 0) {
+        separatedCssInJS = true;
+      }
     }
 
     // Recursively add all nested scopes to the current parent
@@ -194,9 +207,7 @@ function constructOrderedGroups(
     a.prop.localeCompare(b.prop)
   );
 
-  return sortedGroups.filter(
-    (it): it is DeclarationGroup => it.declarations.length > 0
-  );
+  return sortedGroups;
 }
 
 function orderGroup(order: GroupOrder, group: Declaration[]): Declaration[] {

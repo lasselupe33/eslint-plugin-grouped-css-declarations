@@ -54,8 +54,8 @@ export const defaultOrder: Order = [
   [
     "appearance",
     "box-shadow",
-    "background",
     "border",
+    "background",
     "backdrop-filter",
     "filter",
   ],

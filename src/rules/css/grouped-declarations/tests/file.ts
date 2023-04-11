@@ -4,6 +4,7 @@ const test = css`
   z-index: 200;
 
   background: blue;
+  border-color: red;
 
   color: green;
 `;
