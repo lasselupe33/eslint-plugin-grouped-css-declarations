@@ -14,6 +14,7 @@ export function stringifyExpressions(
       const nearestChar = cssString?.replace(/\n/g, "").trimEnd().at(-1);
 
       const nextQuasi = quasis[i + 1]?.value.cooked.trimStart();
+      const newlineCount = nextExpression.split("\n").length - 1;
 
       const currentQuasiEndsWithNewLine = /\n( |\t\r)*?/.test(
         currentQuasi ?? ""
@@ -21,19 +22,20 @@ export function stringifyExpressions(
 
       if (
         (!nearestChar || ["{", ";", "/"].includes(nearestChar)) &&
-        (currentQuasiEndsWithNewLine ||
+        !nextQuasi?.startsWith("&") &&
+        ((currentQuasiEndsWithNewLine && !nextQuasi?.trim().startsWith(":")) ||
           nextQuasi?.startsWith("\n") ||
           nextQuasi?.startsWith(";"))
       ) {
-        cssString += `custom-js__${Buffer.from(nextExpression).toString(
-          "base64"
-        )}__:ignore${
+        cssString += `custom-js__${newlineCount}_${Buffer.from(
+          nextExpression
+        ).toString("base64")}__:ignore${"\n".repeat(newlineCount)}${
           nextQuasi?.startsWith(";") || nextQuasi?.startsWith("{") ? "" : ";"
         }`;
       } else {
-        cssString += `custom-prop__${Buffer.from(nextExpression).toString(
-          "base64"
-        )}__`;
+        cssString += `custom-prop__${newlineCount}_${Buffer.from(
+          nextExpression
+        ).toString("base64")}__${"\n".repeat(newlineCount)}`;
       }
     }
   }
