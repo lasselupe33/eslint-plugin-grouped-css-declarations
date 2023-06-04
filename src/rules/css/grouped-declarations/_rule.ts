@@ -99,7 +99,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
               node.quasi.quasis[i + 1]?.value.cooked.trimStart();
 
             if (
-              (!nearestChar || ["{", ";"].includes(nearestChar)) &&
+              (!nearestChar || ["{", ";", "/"].includes(nearestChar)) &&
               (nextQuasi?.startsWith("\n") || nextQuasi?.startsWith(";"))
             ) {
               cssString += `custom-js__${Buffer.from(

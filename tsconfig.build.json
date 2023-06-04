@@ -4,6 +4,8 @@
     "rootDir": "./src",
     "outDir": "./lib",
     "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
   },
-  "include": ["typings/**/*", "src/**/*"],
+  "include": ["src/**/*"],
 }
