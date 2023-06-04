@@ -98,14 +98,20 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
             const nextQuasi =
               node.quasi.quasis[i + 1]?.value.cooked.trimStart();
 
+            const currentQuasiEndsWithNewLine = /\n( |\t\r)*?/.test(
+              currentQuasi ?? ""
+            );
+
             if (
               (!nearestChar || ["{", ";", "/"].includes(nearestChar)) &&
-              (nextQuasi?.startsWith("\n") || nextQuasi?.startsWith(";"))
+              (currentQuasiEndsWithNewLine ||
+                nextQuasi?.startsWith("\n") ||
+                nextQuasi?.startsWith(";"))
             ) {
               cssString += `custom-js__${Buffer.from(
                 sourceCode.getText(nextExpression)
               ).toString("base64")}__:ignore${
-                nextQuasi.startsWith(";") ? "" : ";"
+                nextQuasi?.startsWith(";") ? "" : ";"
               }`;
             } else {
               cssString += `custom-prop__${Buffer.from(
