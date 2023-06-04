@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@styled/typescript-styled-plugin",
+        "validate": false
+      }
+    ],
     "lib": [
       "DOM",
       "DOM.Iterable",

@@ -9,10 +9,7 @@
       "disableOptimisticBPs": true,
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "yarn",
-      "args": [
-        "test",
-        "--runInBand"
-      ]
+      "args": ["test", "--runInBand"]
     },
     {
       "type": "node",
@@ -23,10 +20,7 @@
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "yarn",
       "smartStep": true,
-      "args": [
-        "eslint:files",
-        "./dummy/debug.ts*"
-      ]
+      "args": ["eslint:files", "./dummy/debug.ts*"]
     },
     {
       "type": "node",
@@ -38,10 +32,18 @@
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "yarn",
       "smartStep": true,
-      "args": [
-        "eslint:files",
-        "./dummy/package.json"
-      ]
+      "args": ["eslint:files", "./dummy/package.json"]
+    },
+    {
+      "type": "node",
+      "name": "vscode-stylelint-debug",
+      "request": "launch",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "yarn",
+      "smartStep": true,
+      "args": ["stylelint:files", "./dummy/debug.ts*"]
     }
   ]
 }
