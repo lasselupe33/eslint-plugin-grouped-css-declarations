@@ -8,6 +8,8 @@ import { rewriteToExpectedAST } from "./fixer.rewrite-to-expected-ast";
 import { astToKeySegments } from "./util.ast-to-key-segments";
 import { makeDeclarationScopeAnalyzer } from "./util.declaration-scope-analyzer";
 import { extractDeclarationScope } from "./util.extract-declaration-scopes";
+import { restoreExpressions } from "./util.restore-expressions";
+import { stringifyExpressions } from "./util.stringify-expressions";
 
 const postcss = rootPostcss();
 
@@ -84,42 +86,12 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
           return;
         }
 
-        let cssString = "";
-
-        for (let i = 0; i < node.quasi.quasis.length; i++) {
-          const currentQuasi = node.quasi.quasis[i]?.value.cooked;
-          cssString += currentQuasi;
-
-          const nextExpression = node.quasi.expressions[i];
-
-          if (nextExpression) {
-            const nearestChar = cssString?.replace(/\n/g, "").trimEnd().at(-1);
-
-            const nextQuasi =
-              node.quasi.quasis[i + 1]?.value.cooked.trimStart();
-
-            const currentQuasiEndsWithNewLine = /\n( |\t\r)*?/.test(
-              currentQuasi ?? ""
-            );
-
-            if (
-              (!nearestChar || ["{", ";", "/"].includes(nearestChar)) &&
-              (currentQuasiEndsWithNewLine ||
-                nextQuasi?.startsWith("\n") ||
-                nextQuasi?.startsWith(";"))
-            ) {
-              cssString += `custom-js__${Buffer.from(
-                sourceCode.getText(nextExpression)
-              ).toString("base64")}__:ignore${
-                nextQuasi?.startsWith(";") ? "" : ";"
-              }`;
-            } else {
-              cssString += `custom-prop__${Buffer.from(
-                sourceCode.getText(nextExpression)
-              ).toString("base64")}__`;
-            }
-          }
-        }
+        const cssString = stringifyExpressions(
+          node.quasi.quasis,
+          node.quasi.expressions.map((expression) =>
+            sourceCode.getText(expression)
+          )
+        );
 
         try {
           const cssAST = postcss.process(cssString).root;
@@ -142,29 +114,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
               fix(fixer) {
                 return fixer.replaceText(
                   node.quasi,
-                  `\`${fixedAst
-                    .toString()
-                    .replace(/custom-prop__(.*?)__/g, (replaceable) => {
-                      const base64js = replaceable
-                        .replace(/^custom-prop__/, "")
-                        .replace(/__$/, "");
-
-                      return `$\{${Buffer.from(base64js, "base64").toString(
-                        "utf-8"
-                      )}}`;
-                    })
-                    .replace(
-                      /custom-js__(.*?)__:\s*?ignore;/g,
-                      (replaceable) => {
-                        const base64js = replaceable
-                          .replace(/^custom-js__/, "")
-                          .replace(/__:\s*?ignore;$/, "");
-
-                        return `$\{${Buffer.from(base64js, "base64").toString(
-                          "utf-8"
-                        )}};`;
-                      }
-                    )}\``
+                  `\`${restoreExpressions(fixedAst.toString())}\``
                 );
               },
             });
