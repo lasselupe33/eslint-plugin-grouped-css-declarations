@@ -8,7 +8,7 @@ export function restoreExpressions(rawCss: string) {
 
       const base64js = replaceable
         .replace(/^custom-prop__\d+_/m, "")
-        .replace(new RegExp(`\n{${newlinesToRemove}}$`), "")
+        .replace(/\n*$/, "")
         .replace(/__$/, "");
 
       return `$\{${Buffer.from(base64js, "base64").toString(
@@ -25,7 +25,7 @@ export function restoreExpressions(rawCss: string) {
 
       const base64js = replaceable
         .replace(/^custom-js__\d+_/m, "")
-        .replace(new RegExp(`\n*$`), "")
+        .replace(/\n*$/, "")
         .replace(/__:\s*?ignore/, "")
         .replace(/;$/, "");
 
