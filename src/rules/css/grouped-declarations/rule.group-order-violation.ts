@@ -1,5 +1,5 @@
-import { Node } from "@typescript-eslint/types/dist/generated/ast-spec";
-import { RuleContext } from "@typescript-eslint/utils/dist/ts-eslint";
+import { TSESTree } from "@typescript-eslint/utils";
+import { RuleContext } from "@typescript-eslint/utils/ts-eslint";
 
 import { MessageIds, Options } from "./_rule";
 import { defaultOrder } from "./config.order";
@@ -13,8 +13,8 @@ import { getDeclarationPosition } from "./util.get-declaration-position";
  */
 export function reportGroupOrderViolations(
   context: RuleContext<MessageIds, Options>,
-  node: Node,
-  scope: DeclarationScope
+  node: TSESTree.Node,
+  scope: DeclarationScope,
 ) {
   let prevGroupOrderIdent:
     | "comment-group"
@@ -33,7 +33,7 @@ export function reportGroupOrderViolations(
     }
 
     let relevantGroupOrderIndex = defaultOrder.findIndex(
-      findGroupOrderForProperty(declarationGroup.declarations[0]?.prop)
+      findGroupOrderForProperty(declarationGroup.declarations[0]?.prop),
     );
 
     if (
@@ -50,7 +50,7 @@ export function reportGroupOrderViolations(
       const loc = getDeclarationPosition(
         node,
         firstDeclaration,
-        lastDeclaration
+        lastDeclaration,
       );
 
       if (loc) {
@@ -69,7 +69,7 @@ export function reportGroupOrderViolations(
 
     prevGroupOrderIndex = Math.max(
       relevantGroupOrderIndex,
-      prevGroupOrderIndex
+      prevGroupOrderIndex,
     );
     prevGroupOrderIdent =
       declarationGroup.comments.length > 0

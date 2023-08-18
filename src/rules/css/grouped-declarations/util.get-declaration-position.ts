@@ -1,4 +1,3 @@
-import { Node } from "@typescript-eslint/types/dist/generated/ast-spec";
 import { TSESTree } from "@typescript-eslint/utils";
 import { Declaration } from "postcss";
 
@@ -7,9 +6,9 @@ import { Declaration } from "postcss";
  * taking the entire source file into account
  */
 export function getDeclarationPosition(
-  node: Node,
+  node: TSESTree.Node,
   declaration: Declaration | undefined,
-  optionalEndDeclaration?: Declaration | undefined
+  optionalEndDeclaration?: Declaration | undefined,
 ): Readonly<TSESTree.SourceLocation> | undefined {
   const startDeclaration = declaration;
   const endDeclaration = optionalEndDeclaration ?? declaration;

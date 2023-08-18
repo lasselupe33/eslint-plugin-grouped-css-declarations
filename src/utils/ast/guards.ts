@@ -2,58 +2,58 @@
 // https://github.com/testing-library/eslint-plugin-testing-library/blob/main/lib/node-utils/is-node-of-type.ts
 
 import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
-import { Scope } from "@typescript-eslint/utils/dist/ts-eslint";
+import { Scope } from "@typescript-eslint/utils/ts-eslint";
 
 const isNodeOfType =
   <NodeType extends AST_NODE_TYPES>(nodeType: NodeType) =>
   (
-    node: TSESTree.Node | null | undefined
+    node: TSESTree.Node | null | undefined,
   ): node is TSESTree.Node & { type: NodeType } =>
     node?.type === nodeType;
 
 export const isIdentifier = isNodeOfType(AST_NODE_TYPES.Identifier);
 export const isTaggedTemplateExpression = isNodeOfType(
-  AST_NODE_TYPES.TaggedTemplateExpression
+  AST_NODE_TYPES.TaggedTemplateExpression,
 );
 export const isExportNamedDeclaration = isNodeOfType(
-  AST_NODE_TYPES.ExportNamedDeclaration
+  AST_NODE_TYPES.ExportNamedDeclaration,
 );
 export const isExportDefaultDeclaration = isNodeOfType(
-  AST_NODE_TYPES.ExportDefaultDeclaration
+  AST_NODE_TYPES.ExportDefaultDeclaration,
 );
 export const isExportAllDeclaration = isNodeOfType(
-  AST_NODE_TYPES.ExportAllDeclaration
+  AST_NODE_TYPES.ExportAllDeclaration,
 );
 export const isArrayExpression = isNodeOfType(AST_NODE_TYPES.ArrayExpression);
 export const isArrowFunctionExpression = isNodeOfType(
-  AST_NODE_TYPES.ArrowFunctionExpression
+  AST_NODE_TYPES.ArrowFunctionExpression,
 );
 export const isBlockStatement = isNodeOfType(AST_NODE_TYPES.BlockStatement);
 export const isCallExpression = isNodeOfType(AST_NODE_TYPES.CallExpression);
 export const isRestElement = isNodeOfType(AST_NODE_TYPES.RestElement);
 export const isExpressionStatement = isNodeOfType(
-  AST_NODE_TYPES.ExpressionStatement
+  AST_NODE_TYPES.ExpressionStatement,
 );
 export const isVariableDeclaration = isNodeOfType(
-  AST_NODE_TYPES.VariableDeclaration
+  AST_NODE_TYPES.VariableDeclaration,
 );
 export const isVariableDeclarator = isNodeOfType(
-  AST_NODE_TYPES.VariableDeclarator
+  AST_NODE_TYPES.VariableDeclarator,
 );
 export const isAssignmentExpression = isNodeOfType(
-  AST_NODE_TYPES.AssignmentExpression
+  AST_NODE_TYPES.AssignmentExpression,
 );
 export const isSequenceExpression = isNodeOfType(
-  AST_NODE_TYPES.SequenceExpression
+  AST_NODE_TYPES.SequenceExpression,
 );
 export const isImportDeclaration = isNodeOfType(
-  AST_NODE_TYPES.ImportDeclaration
+  AST_NODE_TYPES.ImportDeclaration,
 );
 export const isImportDefaultSpecifier = isNodeOfType(
-  AST_NODE_TYPES.ImportDefaultSpecifier
+  AST_NODE_TYPES.ImportDefaultSpecifier,
 );
 export const isImportNamespaceSpecifier = isNodeOfType(
-  AST_NODE_TYPES.ImportNamespaceSpecifier
+  AST_NODE_TYPES.ImportNamespaceSpecifier,
 );
 export const isImportSpecifier = isNodeOfType(AST_NODE_TYPES.ImportSpecifier);
 export const isExportSpecifier = isNodeOfType(AST_NODE_TYPES.ExportSpecifier);
@@ -69,27 +69,27 @@ export const isMethodDefinition = isNodeOfType(AST_NODE_TYPES.MethodDefinition);
 export const isReturnStatement = isNodeOfType(AST_NODE_TYPES.ReturnStatement);
 export const isYieldExpression = isNodeOfType(AST_NODE_TYPES.YieldExpression);
 export const isFunctionExpression = isNodeOfType(
-  AST_NODE_TYPES.FunctionExpression
+  AST_NODE_TYPES.FunctionExpression,
 );
 export const isFunctionDeclaration = isNodeOfType(
-  AST_NODE_TYPES.FunctionDeclaration
+  AST_NODE_TYPES.FunctionDeclaration,
 );
 export const isClassDeclaration = isNodeOfType(AST_NODE_TYPES.ClassDeclaration);
 export const isPropertyDefinition = isNodeOfType(
-  AST_NODE_TYPES.PropertyDefinition
+  AST_NODE_TYPES.PropertyDefinition,
 );
 export const isProgram = isNodeOfType(AST_NODE_TYPES.Program);
 export const isTSTypeReference = isNodeOfType(AST_NODE_TYPES.TSTypeReference);
 export const isTSTypeAnnotation = isNodeOfType(AST_NODE_TYPES.TSTypeAnnotation);
 export const isJSXExpressionContainer = isNodeOfType(
-  AST_NODE_TYPES.JSXExpressionContainer
+  AST_NODE_TYPES.JSXExpressionContainer,
 );
 export const isJSXEmptyExpression = isNodeOfType(
-  AST_NODE_TYPES.JSXEmptyExpression
+  AST_NODE_TYPES.JSXEmptyExpression,
 );
 export const isJSXIdentifier = isNodeOfType(AST_NODE_TYPES.JSXIdentifier);
 export const isJSXNamespacedName = isNodeOfType(
-  AST_NODE_TYPES.JSXNamespacedName
+  AST_NODE_TYPES.JSXNamespacedName,
 );
 
 // Custom guards
@@ -97,24 +97,24 @@ export const isJSXNamespacedName = isNodeOfType(
 export const isArrayPattern = isNodeOfType(AST_NODE_TYPES.ArrayPattern);
 
 export const isParameter = (
-  def?: Scope.Definition | null
+  def?: Scope.Definition | null,
 ): def is Scope.Definition & { type: typeof Scope.DefinitionType.Parameter } =>
   def?.type === Scope.DefinitionType.Parameter;
 
 export const isImportBinding = (
-  def?: Scope.Definition | null
+  def?: Scope.Definition | null,
 ): def is Scope.Definition & {
   type: typeof Scope.DefinitionType.ImportBinding;
 } => def?.type === Scope.DefinitionType.ImportBinding;
 
 export const isFunctionName = (
-  def?: Scope.Definition | null
+  def?: Scope.Definition | null,
 ): def is Scope.Definition & {
   type: typeof Scope.DefinitionType.FunctionName;
 } => def?.type === Scope.DefinitionType.FunctionName;
 
 export const isClassName = (
-  def?: Scope.Definition | null
+  def?: Scope.Definition | null,
 ): def is Scope.Definition & {
   type: typeof Scope.DefinitionType.ClassName;
 } => def?.type === Scope.DefinitionType.ClassName;
@@ -122,7 +122,7 @@ export const isClassName = (
 // Basic guards
 
 export function isPrimitive(
-  value: unknown
+  value: unknown,
 ): value is string | number | boolean | undefined | null {
   return (
     !value ||
@@ -147,25 +147,25 @@ export const isTemplateLiteral = isNodeOfType(AST_NODE_TYPES.TemplateLiteral);
 export const isTemplateElement = isNodeOfType(AST_NODE_TYPES.TemplateElement);
 
 export function isBigIntLiteral(
-  literal: TSESTree.Literal
+  literal: TSESTree.Literal,
 ): literal is TSESTree.BigIntLiteral {
   return typeof literal.value === "bigint";
 }
 
 export function isBooleanLiteral(
-  literal: TSESTree.Literal
+  literal: TSESTree.Literal,
 ): literal is TSESTree.BooleanLiteral {
   return typeof literal.value === "boolean";
 }
 
 export function isNullLiteral(
-  literal: TSESTree.Literal
+  literal: TSESTree.Literal,
 ): literal is TSESTree.NullLiteral {
-  return typeof literal.value === null;
+  return literal.value === null;
 }
 
 export function isNumberLiteral(
-  literal: TSESTree.Literal
+  literal: TSESTree.Literal,
 ): literal is TSESTree.NumberLiteral {
   return typeof literal.value === "number";
 }
@@ -177,7 +177,7 @@ export function isNumberLiteral(
 }*/
 
 export function isStringLiteral(
-  literal: TSESTree.Literal
+  literal: TSESTree.Literal,
 ): literal is TSESTree.StringLiteral {
   return typeof literal.value === "string";
 }

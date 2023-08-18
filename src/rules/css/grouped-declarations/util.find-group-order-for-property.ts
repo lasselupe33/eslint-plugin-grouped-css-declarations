@@ -12,7 +12,7 @@ import { GroupOrder } from "./config.order";
  * contains the property "font"
  */
 export function findGroupOrderForProperty(
-  property: string | undefined
+  property: string | undefined,
 ): (groupOrder: GroupOrder) => boolean {
   return (groupOrder) =>
     findPropertyIndexInGroupOrder(groupOrder, property) !== undefined;
@@ -20,12 +20,12 @@ export function findGroupOrderForProperty(
 
 export function findPropertyIndexInGroupOrder(
   order: GroupOrder,
-  property: string | undefined
+  property: string | undefined,
 ): number | undefined {
   let index = order.findIndex(
     (groupProp) =>
       groupProp === property ||
-      [`-webkit-${groupProp}`, `-moz-${groupProp}`].includes(property ?? "")
+      [`-webkit-${groupProp}`, `-moz-${groupProp}`].includes(property ?? ""),
   );
 
   // If the index could not be resolved, then the current value may be an
@@ -36,7 +36,7 @@ export function findPropertyIndexInGroupOrder(
       (groupProp) =>
         property?.startsWith(groupProp) ||
         property?.startsWith(`-webkit-${groupProp}`) ||
-        property?.startsWith(`-moz-${groupProp}`)
+        property?.startsWith(`-moz-${groupProp}`),
     );
 
     // In case we still haven't resolved the correct index after loosly matching

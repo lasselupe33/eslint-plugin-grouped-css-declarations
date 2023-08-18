@@ -1,6 +1,6 @@
 export function stringifyExpressions(
   quasis: Array<{ value: { cooked: string } }>,
-  expressions: string[]
+  expressions: string[],
 ) {
   let cssString = "";
 
@@ -17,7 +17,7 @@ export function stringifyExpressions(
       const newlineCount = nextExpression.split("\n").length - 1;
 
       const currentQuasiEndsWithNewLine = /\n( |\t\r)*?/.test(
-        currentQuasi ?? ""
+        currentQuasi ?? "",
       );
 
       if (
@@ -28,13 +28,13 @@ export function stringifyExpressions(
           nextQuasi?.startsWith(";"))
       ) {
         cssString += `custom-js__${newlineCount}_${Buffer.from(
-          nextExpression
+          nextExpression,
         ).toString("base64")}__:ignore${"\n".repeat(newlineCount)}${
           nextQuasi?.startsWith(";") || nextQuasi?.startsWith("{") ? "" : ";"
         }`;
       } else {
         cssString += `custom-prop__${newlineCount}_${Buffer.from(
-          nextExpression
+          nextExpression,
         ).toString("base64")}__${"\n".repeat(newlineCount)}`;
       }
     }

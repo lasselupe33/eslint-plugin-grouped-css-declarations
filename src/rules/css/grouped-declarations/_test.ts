@@ -1,19 +1,24 @@
 import path from "path";
 
-import { ESLintUtils } from "@typescript-eslint/utils";
+import { RuleTester } from "@typescript-eslint/utils/ts-eslint";
 
 import { getCode } from "../../../utils/testing";
 
 import { groupedDeclarationsRule } from "./_rule";
 
-const ruleTester = new ESLintUtils.RuleTester({
-  parser: "@typescript-eslint/parser",
+const ruleTester = new RuleTester({
+  parser: require("@typescript-eslint/parser"),
   parserOptions: {
     project: "./tsconfig.json",
     tsconfigRootDir: path.resolve(__dirname, "..", "..", "..", ".."),
     ecmaFeatures: {
       jsx: true,
     },
+  },
+  env: {
+    node: true,
+    es2023: true,
+    browser: true,
   },
 });
 

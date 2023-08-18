@@ -13,7 +13,7 @@ export function warnOnce<TArgs extends unknown[]>(
 
   const key = args.reduce<string>(
     (acc, arg) => `${acc}&${String(arg)}`,
-    generateVariableId(cb)
+    generateVariableId(cb),
   );
 
   if (!HAS_WARNED.has(key)) {

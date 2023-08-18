@@ -1,5 +1,5 @@
-import { Node } from "@typescript-eslint/types/dist/generated/ast-spec";
-import { RuleContext } from "@typescript-eslint/utils/dist/ts-eslint";
+import { TSESTree } from "@typescript-eslint/utils";
+import { RuleContext } from "@typescript-eslint/utils/ts-eslint";
 import { Declaration } from "postcss";
 
 import { MessageIds, Options } from "./_rule";
@@ -20,8 +20,8 @@ import { getDeclarationPosition } from "./util.get-declaration-position";
  */
 export function reportDeclarationOrderViolations(
   context: RuleContext<MessageIds, Options>,
-  node: Node,
-  scope: DeclarationScope
+  node: TSESTree.Node,
+  scope: DeclarationScope,
 ) {
   // In case groups are collapsed, then bail out from checking individual
   // declarations entirely
@@ -33,17 +33,17 @@ export function reportDeclarationOrderViolations(
             decl.prop.startsWith("custom-js__") ||
             decl.prop.startsWith("--") ||
             acc,
-          false
+          false,
         ) &&
         new Set(
           scope.groups[1]?.declarations.map((decl) =>
-            defaultOrder.findIndex(findGroupOrderForProperty(decl.prop))
-          )
+            defaultOrder.findIndex(findGroupOrderForProperty(decl.prop)),
+          ),
         ).size === scope.groups[1]?.declarations.length
       : new Set(
           scope.groups[0]?.declarations.map((decl) =>
-            defaultOrder.findIndex(findGroupOrderForProperty(decl.prop))
-          )
+            defaultOrder.findIndex(findGroupOrderForProperty(decl.prop)),
+          ),
         ).size === scope.groups[0]?.declarations.length;
 
   if (collapsedGroups) {
@@ -60,7 +60,7 @@ export function reportDeclarationOrderViolations(
     // Extract the group ordering relevant for the current group, based on the
     // first property in the group.
     const relevantGroupOrder = defaultOrder.find(
-      findGroupOrderForProperty(declarationGroup.declarations[0]?.prop)
+      findGroupOrderForProperty(declarationGroup.declarations[0]?.prop),
     );
 
     if (!relevantGroupOrder) {
@@ -69,7 +69,7 @@ export function reportDeclarationOrderViolations(
 
     const violations = getViolatingDeclarations(
       relevantGroupOrder,
-      declarationGroup
+      declarationGroup,
     );
 
     // Report ALL violations such that the developer may know exactly
@@ -84,8 +84,8 @@ export function reportDeclarationOrderViolations(
       const isInGroup =
         typeof findPropertyIndexInGroupOrder(
           relevantGroupOrder,
-          violation.prop
-        ) !== undefined;
+          violation.prop,
+        ) !== "undefined";
 
       context.report({
         loc,
@@ -103,7 +103,7 @@ export function reportDeclarationOrderViolations(
 
 function getViolatingDeclarations(
   order: GroupOrder,
-  group: DeclarationGroup
+  group: DeclarationGroup,
 ): Declaration[] {
   if (group.comments.length > 0) {
     return [];

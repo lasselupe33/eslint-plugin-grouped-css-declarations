@@ -17,7 +17,7 @@ export type DeclarationGroup = {
  */
 export function extractDeclarationScope(
   root: Root | AtRule | Rule,
-  comments?: Comment[]
+  comments?: Comment[],
 ): DeclarationScope {
   let commentsForNextScope: Comment[] = [];
   const scopedDeclaration: DeclarationScope = {
@@ -82,7 +82,7 @@ export function extractDeclarationScope(
 
         const ruleDeclarationGroups = extractDeclarationScope(
           currentNode,
-          commentsForNextScope
+          commentsForNextScope,
         );
         commentsForNextScope = [];
         scopedDeclaration.scopes.push(ruleDeclarationGroups);
@@ -102,7 +102,7 @@ export function extractDeclarationScope(
 
         const ruleDeclarationGroups = extractDeclarationScope(
           currentNode,
-          commentsForNextScope
+          commentsForNextScope,
         );
         commentsForNextScope = [];
         scopedDeclaration.scopes.push(ruleDeclarationGroups);
@@ -123,7 +123,7 @@ export function extractDeclarationScope(
 
 function isNextLogicalNodeAScope(
   root: Root | AtRule | Rule,
-  startIndex: number
+  startIndex: number,
 ): boolean {
   for (let i = startIndex + 1; i < root.nodes.length; i++) {
     const nextNode = root.nodes[i];

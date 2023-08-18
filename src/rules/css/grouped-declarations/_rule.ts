@@ -1,4 +1,4 @@
-import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
+import { RuleCreator } from "@typescript-eslint/utils/eslint-utils";
 import rootPostcss from "postcss";
 
 import { resolveDocsRoute } from "../../../utils";
@@ -70,7 +70,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
     docs: {
       description:
         "Identifies @linaria/core CSS-in-JS tags and ensures that a standardised grouping of declarations is enforced",
-      recommended: "error",
+      recommended: "stylistic",
     },
     hasSuggestions: true,
     schema: [],
@@ -89,18 +89,24 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
         const cssString = stringifyExpressions(
           node.quasi.quasis,
           node.quasi.expressions.map((expression) =>
-            sourceCode.getText(expression)
-          )
+            sourceCode.getText(expression),
+          ),
         );
 
         try {
           const cssAST = postcss.process(cssString).root;
+
+          if (cssAST.type === "document") {
+            throw new Error("AST of type document is not supported currently.");
+            return;
+          }
+
           const orginalKey = astToKeySegments(cssAST).join("");
 
           const declarationRootScope = extractDeclarationScope(cssAST);
           const analyzeDeclarationScope = makeDeclarationScopeAnalyzer(
             context,
-            node
+            node,
           );
           analyzeDeclarationScope(declarationRootScope);
 
@@ -114,7 +120,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
               fix(fixer) {
                 return fixer.replaceText(
                   node.quasi,
-                  `\`${restoreExpressions(fixedAst.toString())}\``
+                  `\`${restoreExpressions(fixedAst.toString())}\``,
                 );
               },
             });

@@ -11,7 +11,7 @@ export function restoreCustomProps(ast: Root | AtRule | Rule) {
       case "rule":
         child.selector = child.selector.replace(
           /custom-prop__(.*?)__/g,
-          "${$1}"
+          "${$1}",
         );
         restoreCustomProps(child);
         break;

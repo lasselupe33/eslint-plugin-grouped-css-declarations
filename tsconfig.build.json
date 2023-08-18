@@ -3,9 +3,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./lib",
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true
+    "sourceMap": true
   },
   "include": ["src/**/*"],
 }

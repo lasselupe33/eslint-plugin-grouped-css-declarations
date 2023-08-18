@@ -11,7 +11,7 @@ export function astToKeySegments(ast: Root | AtRule | Rule): string[] {
 
       case "decl":
         keySegments.push(
-          `decl-${child.prop}-${child.value}-${child.raws.before}`
+          `decl-${child.prop}-${child.value}-${child.raws.before}`,
         );
         break;
 

@@ -12,7 +12,7 @@ import {
 
 export function rewriteToExpectedAST(
   cssAST: Root,
-  declarationRootScope: DeclarationScope
+  declarationRootScope: DeclarationScope,
 ): Root {
   const clonedAst = cssAST.clone();
   clonedAst.nodes = [];
@@ -20,7 +20,7 @@ export function rewriteToExpectedAST(
 
   function insertDeclarationScopeToAST(
     scope: DeclarationScope,
-    rootNode: Root | Rule | AtRule
+    rootNode: Root | Rule | AtRule,
   ) {
     for (let i = 0; i < scope.comments.length; i++) {
       const isFirstComment = i === 0;
@@ -36,7 +36,7 @@ export function rewriteToExpectedAST(
         comment.raws = {
           ...comment.raws,
           before: `${"\n".repeat(newLines)}${" ".repeat(
-            comment.raws.before?.replace(/\n/g, "").length ?? 0
+            comment.raws.before?.replace(/\n/g, "").length ?? 0,
           )}`,
         };
       }
@@ -50,7 +50,7 @@ export function rewriteToExpectedAST(
       scope.container.raws = {
         ...scope.container.raws,
         before: `${"\n".repeat(newLines)}${" ".repeat(
-          scope.container.raws.before?.replace(/\n/g, "").length ?? 0
+          scope.container.raws.before?.replace(/\n/g, "").length ?? 0,
         )}`,
       };
 
@@ -67,7 +67,7 @@ export function rewriteToExpectedAST(
       .reduce(
         (acc, curr) =>
           curr.declarations.length <= 1 && curr.comments.length === 0 && acc,
-        true
+        true,
       );
 
     // In case we're collapsing groups, then CssInJs should be separate from
@@ -106,7 +106,7 @@ export function rewriteToExpectedAST(
           comment.raws = {
             ...comment.raws,
             before: `${"\n".repeat(newLines)}${" ".repeat(
-              comment.raws.before?.replace(/\n/g, "").length ?? 0
+              comment.raws.before?.replace(/\n/g, "").length ?? 0,
             )}`,
           };
         }
@@ -137,9 +137,9 @@ export function rewriteToExpectedAST(
               (!collapseGroups ||
                 (declarationGroupIndex > 0 && !separatedCssInJS))
               ? 2
-              : 1
+              : 1,
           )}${" ".repeat(
-            declaration.raws.before?.replace(/[^ ]/g, "").length ?? 0
+            declaration.raws.before?.replace(/[^ ]/g, "").length ?? 0,
           )}`,
         };
       }
@@ -161,7 +161,7 @@ export function rewriteToExpectedAST(
 }
 
 function constructOrderedGroups(
-  originalGroups: DeclarationGroup[]
+  originalGroups: DeclarationGroup[],
 ): DeclarationGroup[] {
   const sortedGroups: DeclarationGroup[] = new Array(defaultOrder.length + 1)
     .fill(undefined)
@@ -179,7 +179,7 @@ function constructOrderedGroups(
       // The current declaration should always go into the first group which
       // explictly contains it.
       const relevantGroupOrderIndex = defaultOrder.findIndex(
-        findGroupOrderForProperty(declaration.prop)
+        findGroupOrderForProperty(declaration.prop),
       );
 
       if (relevantGroupOrderIndex === -1) {
@@ -204,7 +204,7 @@ function constructOrderedGroups(
   // The final group, which contains all non-matching properties, should be
   // sorted alphabetically.
   sortedGroups[defaultOrder.length]?.declarations.sort((a, b) =>
-    a.prop.localeCompare(b.prop)
+    a.prop.localeCompare(b.prop),
   );
 
   return sortedGroups;

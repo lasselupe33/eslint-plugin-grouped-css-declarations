@@ -39,7 +39,7 @@ function extractInlineCss(content: string): string {
       extractingCss = true;
 
       surrounding.push(
-        `/*___js___${Buffer.from(current).toString("base64")}*/`
+        `/*___js___${Buffer.from(current).toString("base64")}*/`,
       );
       current = "";
 
@@ -51,7 +51,7 @@ function extractInlineCss(content: string): string {
       extractingCss = false;
 
       css.push(
-        `/*___start___*/.class${cssInJSOccurrence++}{${current}}/*___end___*/`
+        `/*___start___*/.class${cssInJSOccurrence++}{${current}}/*___end___*/`,
       );
       current = "";
       continue;

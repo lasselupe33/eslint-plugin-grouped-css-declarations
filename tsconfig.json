@@ -17,7 +17,7 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "downlevelIteration": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
