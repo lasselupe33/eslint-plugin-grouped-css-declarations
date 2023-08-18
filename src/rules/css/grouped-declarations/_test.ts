@@ -9,6 +9,7 @@ import { groupedDeclarationsRule } from "./_rule";
 const ruleTester = new RuleTester({
   parser: require("@typescript-eslint/parser"),
   parserOptions: {
+    sourceType: "module",
     project: "./tsconfig.json",
     tsconfigRootDir: path.resolve(__dirname, "..", "..", "..", ".."),
     ecmaFeatures: {
