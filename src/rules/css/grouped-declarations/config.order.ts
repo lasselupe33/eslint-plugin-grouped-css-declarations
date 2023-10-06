@@ -12,6 +12,8 @@ export type GroupOrder = (
   | "custom-prop"
   | "custom-js"
   | "--"
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  | (string & {})
 )[];
 export type Order = GroupOrder[];
 
@@ -54,8 +56,8 @@ export const defaultOrder: Order = [
   [
     "appearance",
     "box-shadow",
-    "border",
     "background",
+    "border",
     "backdrop-filter",
     "filter",
   ],
@@ -107,6 +109,7 @@ export const defaultOrder: Order = [
     "text-transform",
     "text-shadow",
     "color",
+    "text-wrap",
   ],
 
   // Interactions
