@@ -27,6 +27,10 @@ const ruleFunction: stylelint.Rule = (primary, secondary, context) => {
     const declarationRootScope = extractDeclarationScope(postcssRoot);
 
     const fixedAst = rewriteToExpectedAST(postcssRoot, declarationRootScope);
+
+    // @ts-expect-error Stylelint wierdly computes that a newline exists before
+    // the first node, even though this isn't true.
+    fixedAst.nodes[0].raws.before = "";
     const fixedKey = astToKeySegments(fixedAst).join("");
 
     if (orginalKey !== fixedKey) {
