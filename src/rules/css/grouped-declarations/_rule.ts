@@ -129,7 +129,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
             });
           }
         } catch (err) {
-          console.warn(err);
+          console.warn(context.filename, err);
           context.report({
             node: node.tag,
             messageId: MessageIds.PARSING_FAILED,

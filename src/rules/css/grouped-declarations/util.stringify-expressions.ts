@@ -12,6 +12,9 @@ export function stringifyExpressions(
 
     if (nextExpression) {
       const nearestChar = cssString?.replace(/\n/g, "").trimEnd().at(-1);
+      const hasCommentBefore =
+        `${cssString?.replace(/\n/g, "").trimEnd().at(-2)}${nearestChar}` ===
+        "*/";
 
       const nextQuasi = quasis[i + 1]?.value.cooked.trimStart();
       const newlineCount = nextExpression.split("\n").length - 1;
@@ -21,7 +24,9 @@ export function stringifyExpressions(
       );
 
       if (
-        (!nearestChar || ["{", ";", "/", "}"].includes(nearestChar)) &&
+        (!nearestChar ||
+          ["{", ";", "}"].includes(nearestChar) ||
+          hasCommentBefore) &&
         !nextQuasi?.startsWith("&") &&
         !nextQuasi?.startsWith(".") &&
         nextQuasi !== "" &&
