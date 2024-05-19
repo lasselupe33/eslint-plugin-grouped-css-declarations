@@ -1,4 +1,4 @@
-<h1 align="center">ESLint Plugin Grouped CSS Declarations (@todo finalize docs)</h1>
+<h1 align="center">ESLint Plugin Grouped CSS Declarations</h1>
 
 Identifies @linaria/core CSS-in-JS tags and ensures that a standardised grouping of declarations is enforced using the PostCSS parser.
 

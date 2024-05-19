@@ -12,9 +12,6 @@ export type DeclarationGroup = {
   declarations: Declaration[];
 };
 
-/**
- * @TODO: Cleanup :))
- */
 export function extractDeclarationScope(
   root: Root | AtRule | Rule,
   comments?: Comment[],
@@ -60,7 +57,10 @@ export function extractDeclarationScope(
       case "comment": {
         if (isNextLogicalNodeAScope(root, i)) {
           commentsForNextScope.push(currentNode);
-        } else if (currentDeclarationGroup.declarations.length > 0) {
+        } else if (
+          currentDeclarationGroup.declarations.length > 0 &&
+          currentNode.raws.before?.includes("\n")
+        ) {
           scopedDeclaration.groups.push(currentDeclarationGroup);
           currentDeclarationGroup = {
             comments: [currentNode],
@@ -116,7 +116,10 @@ export function extractDeclarationScope(
     scopedDeclaration.comments.push(...commentsForNextScope);
   }
 
-  if (currentDeclarationGroup.declarations.length > 0) {
+  if (
+    currentDeclarationGroup.declarations.length > 0 ||
+    currentDeclarationGroup.comments.length > 0
+  ) {
     scopedDeclaration.groups.push(currentDeclarationGroup);
   }
 
