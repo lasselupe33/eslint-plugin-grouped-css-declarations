@@ -7,7 +7,7 @@ module.exports = {
 
   plugins: [
     require.resolve(
-      "eslint-plugin-grouped-css-declarations/lib/stylelint/plugin"
+      "eslint-plugin-grouped-css-declarations/stylelint"
     ),
   ],
 

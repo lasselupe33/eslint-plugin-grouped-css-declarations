@@ -11,6 +11,17 @@ const esbuild = require("rollup-plugin-esbuild").default;
 const srcFolder = path.resolve(__dirname, "src");
 const libFolder = path.resolve(__dirname, "lib");
 
+const entry = (() => {
+  switch (process.env["ROLLUP__ENTRY"]) {
+    case "eslint":
+    case "stylelint":
+      return process.env["ROLLUP__ENTRY"];
+
+    default:
+      return "eslint";
+  }
+})();
+
 const format = (() => {
   switch (process.env["ROLLUP__FORMAT"]) {
     case "esm":
@@ -23,7 +34,13 @@ const format = (() => {
 })();
 
 module.exports = {
-  input: [resolveIndexFile(srcFolder, "index", [".ts", ".tsx"])],
+  input: [
+    resolveIndexFile(srcFolder, "index", [".ts", ".tsx"]),
+    resolveIndexFile(path.join(srcFolder, "stylelint"), "plugin", [
+      ".ts",
+      ".tsx",
+    ]),
+  ],
 
   external: (moduleId, importedFrom) => {
     if (moduleId.startsWith(srcFolder)) {
@@ -42,7 +59,12 @@ module.exports = {
   },
 
   output: {
-    dir: format === "cjs" ? "lib/cjs" : "lib/mjs",
+    dir:
+      entry === "stylelint"
+        ? "lib/stylelint"
+        : format === "cjs"
+          ? "lib/cjs"
+          : "lib/mjs",
     format,
     preserveModules: true,
     entryFileNames: format === "cjs" ? "[name].js" : "[name].mjs",

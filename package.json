@@ -6,6 +6,12 @@
   "main": "./lib/cjs/index.js",
   "module": "./lib/mjs/index.mjs",
   "exports": {
+    "./stylelint": {
+      "types": "./src/stylelint/plugin.ts",
+      "import": "./lib/mjs/stylelint/plugin.mjs",
+      "require": "./lib/cjs/stylelint/plugin.js",
+      "default": "./lib/cjs/stylelint/plugin.js"
+    },
     ".": {
       "types": "./src/index.ts",
       "import": "./lib/mjs/index.mjs",
