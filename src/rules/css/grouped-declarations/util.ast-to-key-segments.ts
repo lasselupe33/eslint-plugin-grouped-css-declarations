@@ -3,7 +3,7 @@ import { AtRule, Root, Rule } from "postcss";
 export function astToKeySegments(ast: Root | AtRule | Rule): string[] {
   const keySegments: string[] = [];
 
-  for (const child of ast.nodes) {
+  for (const child of ast.nodes ?? []) {
     switch (child.type) {
       case "comment":
         keySegments.push(`comment-${child.text}-${child.raws.before}`);

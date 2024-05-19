@@ -22,6 +22,8 @@ export function rewriteToExpectedAST(
     scope: DeclarationScope,
     rootNode: Root | Rule | AtRule,
   ) {
+    rootNode.nodes ??= [];
+
     for (let i = 0; i < scope.comments.length; i++) {
       const isFirstComment = i === 0;
       const comment = scope.comments[i];
@@ -75,8 +77,8 @@ export function rewriteToExpectedAST(
     let separatedCssInJS = !collapseGroups;
 
     const relevantNodeArray = scope.container
-      ? scope.container.nodes
-      : rootNode.nodes;
+      ? scope.container.nodes ?? []
+      : rootNode.nodes ?? [];
 
     for (
       let declarationGroupIndex = 0;

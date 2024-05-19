@@ -6,6 +6,6 @@
 
   "testEnvironment": "node",
   "transform": {
-    "\\.tsx?$": ["@swc-node/jest", { "sourcemap": "inline" }]
+    "\\.tsx?$": ["@swc/jest"]
   }
 }

@@ -19,6 +19,8 @@ export function extractDeclarationScope(
   root: Root | AtRule | Rule,
   comments?: Comment[],
 ): DeclarationScope {
+  root.nodes ??= [];
+
   let commentsForNextScope: Comment[] = [];
   const scopedDeclaration: DeclarationScope = {
     comments: comments ?? [],
@@ -125,6 +127,8 @@ function isNextLogicalNodeAScope(
   root: Root | AtRule | Rule,
   startIndex: number,
 ): boolean {
+  root.nodes ??= [];
+
   for (let i = startIndex + 1; i < root.nodes.length; i++) {
     const nextNode = root.nodes[i];
 

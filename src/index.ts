@@ -18,6 +18,23 @@ export const configs = {
       "grouped-css-declarations/css/grouped-declarations": ["error"],
     },
   },
+
+  "flat/recommended": {
+    files: [
+      "**/*.js",
+      "**/*.mjs",
+      "**/*.jsx",
+      "**/*.ts",
+      "**/*.mts",
+      "**/*.tsx",
+    ],
+    plugins: {
+      "grouped-css-declarations": require("."),
+    },
+    rules: {
+      "grouped-css-declarations/css/grouped-declarations": ["error"],
+    },
+  } satisfies Linter.FlatConfig,
 } satisfies Record<
   string,
   | ESLint.ConfigData<Linter.RulesRecord>

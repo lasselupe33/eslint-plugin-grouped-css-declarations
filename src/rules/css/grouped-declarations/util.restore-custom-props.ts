@@ -1,7 +1,7 @@
 import { AtRule, Root, Rule } from "postcss";
 
 export function restoreCustomProps(ast: Root | AtRule | Rule) {
-  for (const child of ast.nodes) {
+  for (const child of ast.nodes ?? []) {
     switch (child.type) {
       case "decl":
         child.prop = child.prop.replace(/custom-prop__(.*?)__/g, "${$1}");

@@ -10,13 +10,12 @@
   ],
   "eslint.onIgnoredFiles": "warn",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
   "jest.jestCommandLine": "yarn test",
-  "jest.autoRun": { 
-    "watch": false, 
-    "onStartup": ["all-tests"],
-    "onSave": "test-file"
+  "jest.runMode": { 
+    "testFileOnly": true,
+    "type": "on-save",
   }
 }

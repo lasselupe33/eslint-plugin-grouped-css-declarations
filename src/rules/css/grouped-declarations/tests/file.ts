@@ -1,3 +1,4 @@
+// @ts-expect-error test-file
 import { css } from "@linaria/core";
 
 const test = css`

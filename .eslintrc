@@ -55,7 +55,9 @@
     {
       "files": [
         "*.ts",
-        "*.tsx"
+        "*.tsx",
+        "*.mts",
+        "*.mtsx"
       ],
       "extends": [
         "plugin:import/typescript",
