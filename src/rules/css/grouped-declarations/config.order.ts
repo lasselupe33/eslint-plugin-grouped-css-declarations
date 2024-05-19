@@ -24,6 +24,16 @@ export const defaultOrder: Order = [
   // pseudo-elements
   ["content"],
 
+  // resets,
+  [
+    "all",
+    "appearance",
+    "isolation",
+    "counter-increment",
+    "counter-reset",
+    "counter-set",
+  ],
+
   // Positioning
   ["position", "inset", "top", "left", "right", "bottom", "z-index"],
 
@@ -44,31 +54,53 @@ export const defaultOrder: Order = [
   // Dimensioning
   [
     "box-sizing",
+    "max-block-size",
     "max-height",
+    "max-inline-size",
     "max-width",
     "height",
+    "block-size",
     "width",
+    "inline-size",
+    "min-block-size",
     "min-height",
+    "min-inline-size",
     "min-width",
+    "aspect-ratio",
   ],
 
   // Box appearance
   [
-    "appearance",
+    "visibility",
     "box-shadow",
     "background",
     "border",
     "backdrop-filter",
+    "clip",
+    "clip-path",
     "filter",
+    "mix-blend-mode",
+    "backface-visibility",
+    "quotes",
+    "mask",
   ],
+
+  // Scroll handling
+  ["scroll", "scrollbar"],
+
+  // Overflow handling
   [
     "overflow",
     "overscroll-behavior",
     "text-overflow",
     "hyphens",
+    "hyphenate-character",
     "white-space",
     "word-break",
     "word-wrap",
+    "box-decoration-break",
+    "page-break",
+    "break",
   ],
 
   // Child positioning
@@ -78,12 +110,17 @@ export const defaultOrder: Order = [
     "grid",
     "flex",
     "order",
+    "float",
+    "table-layout",
     "justify-self",
     "justify-content",
     "justify-items",
     "align-self",
     "align-content",
     "align-items",
+    "place-content",
+    "place-items",
+    "place-self",
     "columns",
     "column-count",
     "column-fill",
@@ -91,10 +128,18 @@ export const defaultOrder: Order = [
     "column-gap",
     "column-span",
     "column-width",
+    "orphans",
+    "widows",
     "gap",
+    "row-gap",
+    "column-gap",
+    "writing-mode",
     "list-style",
     "text-align",
   ],
+
+  // media
+  ["object-fit", "object-position"],
 
   // Font appearance
   [
@@ -104,17 +149,33 @@ export const defaultOrder: Order = [
     "font-size",
     "font-style",
     "line-height",
+    "word-spacing",
     "letter-spacing",
     "text-decoration",
+    "text-underline",
     "text-transform",
     "text-shadow",
+    "text-emphasis",
+    "text-justify",
     "color",
+    "accent-color",
+    "caret-color",
     "text-wrap",
   ],
 
   // Interactions
-  ["cursor", "outline"],
+  ["cursor", "outline", "user-select", "pointer-events", "resize"],
 
   // Transitions
-  ["opacity", "transform", "transition", "animation"],
+  [
+    "opacity",
+    "transform",
+    "scale",
+    "translate",
+    "rotate",
+    "perspective",
+    "transition",
+    "animation",
+    "offset",
+  ],
 ];
