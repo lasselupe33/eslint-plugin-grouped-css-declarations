@@ -24,7 +24,7 @@ export function stringifyExpressions(
         (!nearestChar || ["{", ";", "/", "}"].includes(nearestChar)) &&
         !nextQuasi?.startsWith("&") &&
         !nextQuasi?.startsWith(".") &&
-        !nextQuasi?.startsWith("") &&
+        nextQuasi !== "" &&
         ((currentQuasiEndsWithNewLine && !nextQuasi?.trim().startsWith(":")) ||
           nextQuasi?.startsWith("\n") ||
           nextQuasi?.startsWith(";"))
