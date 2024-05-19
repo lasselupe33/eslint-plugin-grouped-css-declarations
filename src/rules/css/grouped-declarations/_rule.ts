@@ -20,6 +20,7 @@ export enum MessageIds {
   INVALID_DECLARATION_ORDER = "invalid-declaration-order",
   INVALID_GROUPING = "invalid-grouping",
   FIXABLE_REPORT = "fixable-report",
+  PARSING_FAILED = "parsing-failed",
 }
 
 const createRule = RuleCreator(resolveDocsRoute);
@@ -66,6 +67,8 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
       [MessageIds.INVALID_GROUPING]: `"{{property}}" does not belong to the current group ordering "{{order}}"`,
       [MessageIds.FIXABLE_REPORT]:
         "Issues have been identified with the current CSS structuring, please use this error to automatically re-format",
+      [MessageIds.PARSING_FAILED]:
+        "CSS parsing failed. This is likely a bug in the plugin. Please inspect terminal output, and report a bug.",
     },
     docs: {
       description:
@@ -76,7 +79,7 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
     schema: [],
   },
   create: (context) => {
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
 
     return {
       TaggedTemplateExpression: (node) => {
@@ -127,7 +130,10 @@ export const groupedDeclarationsRule = createRule<Options, MessageIds>({
           }
         } catch (err) {
           console.warn(err);
-          // no-op
+          context.report({
+            node: node.tag,
+            messageId: MessageIds.PARSING_FAILED,
+          });
         }
       },
     };
