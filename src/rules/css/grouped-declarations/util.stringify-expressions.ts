@@ -21,8 +21,10 @@ export function stringifyExpressions(
       );
 
       if (
-        (!nearestChar || ["{", ";", "/"].includes(nearestChar)) &&
+        (!nearestChar || ["{", ";", "/", "}"].includes(nearestChar)) &&
         !nextQuasi?.startsWith("&") &&
+        !nextQuasi?.startsWith(".") &&
+        !nextQuasi?.startsWith("") &&
         ((currentQuasiEndsWithNewLine && !nextQuasi?.trim().startsWith(":")) ||
           nextQuasi?.startsWith("\n") ||
           nextQuasi?.startsWith(";"))
