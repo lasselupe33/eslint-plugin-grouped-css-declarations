@@ -6,6 +6,14 @@ export const rules = {
   "css/grouped-declarations": groupedDeclarationsRule,
 } as unknown as Record<string, Rule.RuleModule>;
 
+const plugin = {
+  meta: {
+    name: "eslint-plugin-grouped-css-declarations",
+    version: "1.0.0",
+  },
+  rules,
+};
+
 export const configs = {
   recommended: {
     extends: ["plugin:grouped-css-declarations/css"],
@@ -29,7 +37,7 @@ export const configs = {
       "**/*.tsx",
     ],
     plugins: {
-      "grouped-css-declarations": require("."),
+      "grouped-css-declarations": plugin,
     },
     rules: {
       "grouped-css-declarations/css/grouped-declarations": ["error"],
@@ -43,6 +51,7 @@ export const configs = {
 >;
 
 export default {
+  meta: plugin.meta,
   rules,
   configs,
 };
