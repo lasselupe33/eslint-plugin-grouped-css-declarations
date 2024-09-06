@@ -85,13 +85,12 @@ export const defaultOrder: Order = [
     "mask",
   ],
 
-  // Scroll handling
-  ["scroll", "scrollbar"],
-
   // Overflow handling
   [
+    "scroll",
     "overflow",
     "overscroll-behavior",
+    "scrollbar",
     "text-overflow",
     "hyphens",
     "hyphenate-character",
@@ -103,24 +102,24 @@ export const defaultOrder: Order = [
     "break",
   ],
 
-  // Child positioning
+  // Positioning
   [
     "display",
     "direction",
     "grid",
     "flex",
+    "align-self",
+    "justify-self",
+    "place-self",
     "order",
     "float",
     "table-layout",
-    "justify-self",
     "justify-content",
     "justify-items",
-    "align-self",
     "align-content",
     "align-items",
     "place-content",
     "place-items",
-    "place-self",
     "columns",
     "column-count",
     "column-fill",
