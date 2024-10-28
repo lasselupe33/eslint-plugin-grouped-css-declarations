@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-grouped-css-declarations",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "types": "./src/index.ts",
   "main": "./lib/cjs/index.js",
