@@ -29,6 +29,8 @@ export function stringifyExpressions(
           hasCommentBefore) &&
         !nextQuasi?.startsWith("&") &&
         !nextQuasi?.startsWith(".") &&
+        !nextQuasi?.startsWith("[") &&
+        !nextQuasi?.startsWith("$") &&
         ((currentQuasiEndsWithNewLine && !nextQuasi?.trim().startsWith(":")) ||
           nextQuasi?.startsWith("\n") ||
           nextQuasi?.startsWith(";"))
