@@ -16,7 +16,7 @@ export function stringifyExpressions(
         `${cssString?.replace(/\n/g, "").trimEnd().at(-2)}${nearestChar}` ===
         "*/";
 
-      const nextQuasi = quasis[i + 1]?.value.cooked.trimStart();
+      const nextQuasi = quasis[i + 1]?.value.cooked;
       const newlineCount = nextExpression.split("\n").length - 1;
 
       const currentQuasiEndsWithNewLine = /\n( |\t\r)*?/.test(
@@ -30,7 +30,7 @@ export function stringifyExpressions(
         !nextQuasi?.startsWith("&") &&
         !nextQuasi?.startsWith(".") &&
         !nextQuasi?.startsWith("[") &&
-        !nextQuasi?.startsWith("$") &&
+        !nextQuasi?.startsWith(" ") &&
         ((currentQuasiEndsWithNewLine && !nextQuasi?.trim().startsWith(":")) ||
           nextQuasi?.startsWith("\n") ||
           nextQuasi?.startsWith(";"))
